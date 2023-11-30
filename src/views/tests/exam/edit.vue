@@ -17,7 +17,7 @@
           <ValidationObserver v-slot="{ handleSubmit }">
             <form
               class="form form-horizontal"
-              @submit.prevent="handleSubmit(submitForm)"
+              @submit.prevent="handleSubmit(createExam)"
             >
               <div class="form-body">
                 <div class="row">
@@ -36,7 +36,7 @@
                         Nomi <span class="text-danger">*</span>
                       </label>
                       <ValidationProvider
-                        name="name"
+                        name="Nomi"
                         rules="required"
                         v-slot="{ errors }"
                       >
@@ -56,7 +56,7 @@
                         Izoh <span class="text-danger">*</span>
                       </label>
                       <ValidationProvider
-                        name="comment"
+                        name="Izoh"
                         rules="required"
                         v-slot="{ errors }"
                       >
@@ -72,22 +72,21 @@
                       </ValidationProvider>
                     </div>
                     <div class="form-group">
-                      <label for="curriculum">
+                      <label>
                         O'quv reja <span class="text-danger">*</span>
                       </label>
                       <ValidationProvider
-                        name="curriculum"
+                        name="O'quv reja"
                         rules="required"
                         v-slot="{ errors }"
                       >
                         <select class="form-control" v-model="eexam.curriculum">
-                          <option :value="null">O'quv rejani tanlang</option>
                           <option
-                            v-for="(item, key) in 10"
+                            v-for="(item, key) in curriculum"
                             :key="key"
                             :value="item.id"
                           >
-                            O'quv reja
+                            {{ item.name }}
                           </option>
                         </select>
                         <span class="text-danger" v-if="errors.length > 0">{{
@@ -98,7 +97,7 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label for="education_year">
+                          <label>
                             O'quv yili <span class="text-danger">*</span>
                           </label>
                           <ValidationProvider
@@ -132,7 +131,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label for="semester">
+                          <label>
                             Semester<span class="text-danger">*</span>
                           </label>
                           <ValidationProvider
@@ -168,11 +167,11 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label for="exam_type">
-                            O'quv reja <span class="text-danger">*</span>
+                          <label>
+                            Nazorat turi <span class="text-danger">*</span>
                           </label>
                           <ValidationProvider
-                            name="exam_type"
+                            name="Nazorat turi"
                             rules="required"
                             v-slot="{ errors }"
                           >
@@ -180,15 +179,12 @@
                               class="form-control"
                               v-model="eexam.exam_type"
                             >
-                              <option :value="null">
-                                Nazorat turini tanlang
-                              </option>
                               <option
-                                v-for="(item, key) in 10"
+                                v-for="(item, key) in examTypeList"
                                 :key="key"
                                 :value="item.id"
                               >
-                                Nazorat turini
+                                {{ item.name }}
                               </option>
                             </select>
                             <span
@@ -201,86 +197,21 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label for="Izoh">
-                            O'quv reja <span class="text-danger">*</span>
+                          <label>
+                            Faol <span class="text-danger">*</span>
                           </label>
                           <ValidationProvider
-                            name="Izoh"
+                            name="Faol"
                             rules="required"
                             v-slot="{ errors }"
                           >
-                            <select class="form-control">
-                              <option :value="null">
-                                O'quv yilini tanlang
-                              </option>
+                            <select class="form-control" v-model="eexam.active">
                               <option
-                                v-for="(item, key) in 10"
+                                v-for="(item, key) in examActiveList"
                                 :key="key"
-                                :value="item.id"
+                                :value="item.isActive"
                               >
-                                O'quv reja
-                              </option>
-                            </select>
-                            <span
-                              class="text-danger"
-                              v-if="errors.length > 0"
-                              >{{ errors[0] }}</span
-                            >
-                          </ValidationProvider>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="Izoh">
-                            O'quv reja <span class="text-danger">*</span>
-                          </label>
-                          <ValidationProvider
-                            name="Izoh"
-                            rules="required"
-                            v-slot="{ errors }"
-                          >
-                            <select class="form-control">
-                              <option :value="null">
-                                O'quv yilini tanlang
-                              </option>
-                              <option
-                                v-for="(item, key) in 10"
-                                :key="key"
-                                :value="item.id"
-                              >
-                                O'quv reja
-                              </option>
-                            </select>
-                            <span
-                              class="text-danger"
-                              v-if="errors.length > 0"
-                              >{{ errors[0] }}</span
-                            >
-                          </ValidationProvider>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="Izoh">
-                            O'quv reja <span class="text-danger">*</span>
-                          </label>
-                          <ValidationProvider
-                            name="Izoh"
-                            rules="required"
-                            v-slot="{ errors }"
-                          >
-                            <select class="form-control">
-                              <option :value="null">
-                                O'quv yilini tanlang
-                              </option>
-                              <option
-                                v-for="(item, key) in 10"
-                                :key="key"
-                                :value="item.id"
-                              >
-                                O'quv reja
+                                {{ item.name }}
                               </option>
                             </select>
                             <span
@@ -292,29 +223,54 @@
                         </div>
                       </div>
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label for="Izoh">
-                            O'quv reja <span class="text-danger">*</span>
+                          <label>
+                            Boshlanish vaqti<span class="text-danger">*</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>
+                            Tugash vaqti <span class="text-danger">*</span>
                           </label>
                           <ValidationProvider
-                            name="Izoh"
+                            name="Tugash vaqti"
                             rules="required"
                             v-slot="{ errors }"
                           >
-                            <select class="form-control">
-                              <option :value="null">
-                                O'quv yilini tanlang
-                              </option>
-                              <option
-                                v-for="(item, key) in 10"
-                                :key="key"
-                                :value="item.id"
-                              >
-                                O'quv reja
-                              </option>
-                            </select>
+                            <datepicker
+                              placeholder="YYYY-MM-DD H:M"
+                              v-model="eexam.finish_at"
+                              input-class="form-control"
+                            />
+                            <span
+                              class="text-danger"
+                              v-if="errors.length > 0"
+                              >{{ errors[0] }}</span
+                            >
+                          </ValidationProvider>
+                        </div>
+                      </div>
+                    </div> -->
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>
+                            Vaqti (daqiqa) <span class="text-danger">*</span>
+                          </label>
+                          <ValidationProvider
+                            name="Vaqti (daqiqa)"
+                            rules="required"
+                            v-slot="{ errors }"
+                          >
+                            <input
+                              type="number"
+                              class="form-control"
+                              v-model="eexam.duration"
+                            />
                             <span
                               class="text-danger"
                               v-if="errors.length > 0"
@@ -325,26 +281,19 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label for="Izoh">
-                            O'quv reja <span class="text-danger">*</span>
+                          <label>
+                            Maks. ball <span class="text-danger">*</span>
                           </label>
                           <ValidationProvider
-                            name="Izoh"
+                            name="Maks. ball"
                             rules="required"
                             v-slot="{ errors }"
                           >
-                            <select class="form-control">
-                              <option :value="null">
-                                O'quv yilini tanlang
-                              </option>
-                              <option
-                                v-for="(item, key) in 10"
-                                :key="key"
-                                :value="item.id"
-                              >
-                                O'quv reja
-                              </option>
-                            </select>
+                            <input
+                              type="number"
+                              class="form-control"
+                              v-model="eexam.max_ball"
+                            />
                             <span
                               class="text-danger"
                               v-if="errors.length > 0"
@@ -357,26 +306,19 @@
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="Izoh">
-                            O'quv reja <span class="text-danger">*</span>
+                          <label>
+                            Urinishlar soni <span class="text-danger">*</span>
                           </label>
                           <ValidationProvider
-                            name="Izoh"
+                            name="Urinishlar soni"
                             rules="required"
                             v-slot="{ errors }"
                           >
-                            <select class="form-control">
-                              <option :value="null">
-                                O'quv yilini tanlang
-                              </option>
-                              <option
-                                v-for="(item, key) in 10"
-                                :key="key"
-                                :value="item.id"
-                              >
-                                O'quv reja
-                              </option>
-                            </select>
+                            <input
+                              type="number"
+                              class="form-control"
+                              v-model="eexam.attempts"
+                            />
                             <span
                               class="text-danger"
                               v-if="errors.length > 0"
@@ -387,26 +329,19 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="Izoh">
-                            O'quv reja <span class="text-danger">*</span>
+                          <label>
+                            Savollar soni <span class="text-danger">*</span>
                           </label>
                           <ValidationProvider
-                            name="Izoh"
+                            name="Savollar soni"
                             rules="required"
                             v-slot="{ errors }"
                           >
-                            <select class="form-control">
-                              <option :value="null">
-                                O'quv yilini tanlang
-                              </option>
-                              <option
-                                v-for="(item, key) in 10"
-                                :key="key"
-                                :value="item.id"
-                              >
-                                O'quv reja
-                              </option>
-                            </select>
+                            <input
+                              type="number"
+                              class="form-control"
+                              v-model="eexam.question_count"
+                            />
                             <span
                               class="text-danger"
                               v-if="errors.length > 0"
@@ -417,26 +352,21 @@
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="Izoh">
-                            O'quv reja <span class="text-danger">*</span>
+                          <label>
+                            Tasodifiy<span class="text-danger">*</span>
                           </label>
                           <ValidationProvider
                             name="Izoh"
                             rules="required"
                             v-slot="{ errors }"
                           >
-                            <select class="form-control">
-                              <option :value="null">
-                                O'quv yilini tanlang
-                              </option>
-                              <option
-                                v-for="(item, key) in 10"
-                                :key="key"
-                                :value="item.id"
-                              >
-                                O'quv reja
-                              </option>
-                            </select>
+                            <input
+                              type="text"
+                              placeholder=""
+                              disabled
+                              class="form-control"
+                              v-model="eexam.random"
+                            />
                             <span
                               class="text-danger"
                               v-if="errors.length > 0"
@@ -447,16 +377,14 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="Izoh">
-                        O'quv reja <span class="text-danger">*</span>
-                      </label>
+                      <label> Fanlar <span class="text-danger">*</span> </label>
                       <ValidationProvider
-                        name="Izoh"
+                        name="Fanlar"
                         rules="required"
                         v-slot="{ errors }"
                       >
-                        <select class="form-control">
-                          <option :value="null">O'quv yilini tanlang</option>
+                        <select class="form-control" v-model="eexam.subject">
+                          <option :value="null">Fanni tanlang</option>
                           <option
                             v-for="(item, key) in 10"
                             :key="key"
@@ -473,17 +401,18 @@
                   </div>
                 </div>
               </div>
+              <div
+                class="card-footer d-flex justify-content-start justify-content-sm-end flex-wrap"
+                style="gap: 10px"
+              >
+                <button class="btn btn-danger w-sm-auto">O'chirish</button>
+                <button type="submit" class="btn btn-success w-sm-auto">
+                  Saqlash
+                </button>
+              </div>
             </form>
           </ValidationObserver>
         </div>
-      </div>
-      <div
-        class="card-footer d-flex justify-content-start justify-content-sm-end flex-wrap"
-        style="gap: 10px"
-      >
-        <button class="btn btn-danger w-sm-auto">O'chirish</button>
-        <button class="btn btn-light w-sm-auto">Seansni o'chirish</button>
-        <button class="btn btn-success w-sm-auto">O‘zgartirish</button>
       </div>
     </div>
     <div class="card">
@@ -641,6 +570,7 @@
 import { ValidationProvider, extend, ValidationObserver } from "vee-validate";
 import { required } from "vee-validate/dist/rules";
 import Modal from "../../../components/Modal.vue";
+import Datepicker from "vuejs-datepicker";
 
 extend("required", {
   ...required,
@@ -652,6 +582,7 @@ export default {
     ValidationObserver,
     ValidationProvider,
     Modal,
+    Datepicker,
   },
   data() {
     return {
@@ -660,34 +591,111 @@ export default {
       loading: false,
       modal: false,
       modalGroup: false,
+      examTypeList: [],
+      examActiveList: [
+        {
+          id: 0,
+          name: "Ha",
+          isActive: true,
+        },
+        {
+          id: 1,
+          name: "Yo'q",
+          isActive: false,
+        },
+      ],
+      curriculum: [],
       eexam: {
         name: "",
         comment: "",
         curriculum: "",
-        education_year: "",
-        semester: "",
+        education_year: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        semester: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         exam_type: "",
-        active: "",
-        start_at: "",
-        finish_at: "",
-        duration: "",
-        max_ball: "",
-        attempts: "",
-        question_count: "",
-        random: "",
-        subject: "",
+        active: false,
+        start_at: "2023-11-30T09:17:55.833Z",
+        finish_at: "2023-11-30T09:17:55.833Z",
+        duration: null,
+        max_ball: null,
+        attempts: null,
+        question_count: null,
+        random: "Ha",
+        subject: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       },
     };
   },
   methods: {
-    submitForm() {
-      //
+    createExam() {
+      this.loaded = false;
+
+      const examData = {
+        name: this.eexam.name,
+        comment: this.eexam.comment,
+        curriculum: this.eexam.curriculum,
+        education_year: this.eexam.education_year,
+        semester: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        exam_type: this.eexam.exam_type,
+        exam_status: true,
+        begin_time: "2023-11-30 21:35",
+        end_time: "2023-11-30 21:55",
+        exam_time: parseInt(this.eexam.duration),
+        max_score: parseInt(this.eexam.max_ball),
+        attempts: parseInt(this.eexam.attempts),
+        total_count: parseInt(this.eexam.question_count),
+        is_random: true,
+        subject: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      };
+      this.$api
+        .post(`exam/create`, examData)
+        .then((res) => {
+          if (!res.error) {
+            console.log(res);
+          }
+        })
+        .catch((err) => {
+          console.error("Imtihon yaratishda xato yuz berdi:", err);
+        })
+        .finally(() => {
+          this.loaded = true;
+        });
     },
     addGroup() {
       this.modal = true;
     },
+    getExamType() {
+      this.$api
+        .get(`exam-types/get`)
+        .then((res) => {
+          if (!res.error) {
+            this.examTypeList = res.results;
+          }
+        })
+        .catch((err) => {})
+        .finally(() => {});
+    },
+    getCurriculum() {
+      this.loaded = false;
+      this.$api
+        .get(`curriculum`)
+        .then((res) => {
+          if (res) {
+            this.curriculum = res.results;
+          }
+        })
+        .catch((err) => {})
+        .finally(() => {});
+    },
   },
-  mounted() {},
+  mounted() {
+    $(this.$refs.datetimepicker).datetimepicker({
+      format: "YYYY-MM-DD HH:mm",
+      // Specify other options here
+    });
+  },
+  created() {
+    this.getExamType();
+    this.getCurriculum();
+  },
 };
 </script>
 
