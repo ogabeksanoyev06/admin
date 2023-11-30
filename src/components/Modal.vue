@@ -1,0 +1,64 @@
+<template>
+  <div
+    class="modal fade"
+    id="modal-component"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="modal-component"
+    style="display: none"
+    aria-modal="true"
+  >
+    <div
+      class="modal-dialog modal-dialog-centered"
+      :class="modalSize"
+      role="document"
+    >
+      <div class="modal-content p-0" :style="styleProp">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body p-0">
+          <slot />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Modal",
+  props: {
+    modal: Boolean,
+    modalSize: {
+      type: String,
+      default: "modal-lg",
+    },
+    styleProp: {
+      type: String,
+      default: "",
+    },
+  },
+  watch: {
+    modal() {
+      if (this.modal) {
+        $("#modal-component").modal("show");
+      }
+    },
+  },
+  mounted() {
+    $("#modal-component").on("hidden.bs.modal", (e) => {
+      this.$emit("modal-closed");
+    });
+  },
+};
+</script>
+
+<style scoped></style>
