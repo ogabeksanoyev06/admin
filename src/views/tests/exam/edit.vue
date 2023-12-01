@@ -80,7 +80,11 @@
                         rules="required"
                         v-slot="{ errors }"
                       >
-                        <select class="form-control" v-model="eexam.curriculum">
+                        <select
+                          class="form-control"
+                          v-model="eexam.curriculum"
+                          @change="currId(eexam.curriculum)"
+                        >
                           <option
                             v-for="(item, key) in curriculum"
                             :key="key"
@@ -105,27 +109,15 @@
                             rules="required"
                             v-slot="{ errors }"
                           >
-                            <select
+                            <input
+                              type="text"
                               class="form-control"
-                              v-model="eexam.education_year"
                               disabled
-                            >
-                              <option :value="null">
-                                O'quv yilini tanlang
-                              </option>
-                              <option
-                                v-for="(item, key) in 10"
-                                :key="key"
-                                :value="item.id"
-                              >
-                                O'quv reja
-                              </option>
-                            </select>
-                            <span
-                              class="text-danger"
-                              v-if="errors.length > 0"
-                              >{{ errors[0] }}</span
-                            >
+                              v-model="educationYearName"
+                            />
+                            <span class="text-danger" v-if="errors.length > 0">
+                              {{ errors[0] }}
+                            </span>
                           </ValidationProvider>
                         </div>
                       </div>
@@ -139,20 +131,12 @@
                             rules="required"
                             v-slot="{ errors }"
                           >
-                            <select
+                            <input
+                              type="text"
                               class="form-control"
-                              v-model="eexam.semester"
                               disabled
-                            >
-                              <option :value="null">Semesterni tanlang</option>
-                              <option
-                                v-for="(item, key) in 10"
-                                :key="key"
-                                :value="item.id"
-                              >
-                                O'quv reja
-                              </option>
-                            </select>
+                              v-model="semesterName"
+                            />
                             <span
                               class="text-danger"
                               v-if="errors.length > 0"
@@ -605,12 +589,14 @@ export default {
         },
       ],
       curriculum: [],
+      educationYearName: "",
+      semesterName: "",
       eexam: {
         name: "",
         comment: "",
         curriculum: "",
-        education_year: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        semester: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        education_year: "",
+        semester: "",
         exam_type: "",
         active: false,
         start_at: "2023-11-30T09:17:55.833Z",
@@ -620,20 +606,19 @@ export default {
         attempts: null,
         question_count: null,
         random: "Ha",
-        subject: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        subject: "",
       },
     };
   },
   methods: {
     createExam() {
       this.loaded = false;
-
       const examData = {
         name: this.eexam.name,
         comment: this.eexam.comment,
         curriculum: this.eexam.curriculum,
         education_year: this.eexam.education_year,
-        semester: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        semester: this.eexam.semester,
         exam_type: this.eexam.exam_type,
         exam_status: true,
         begin_time: "2023-11-30 21:35",
@@ -685,13 +670,27 @@ export default {
         .catch((err) => {})
         .finally(() => {});
     },
+    currId(id) {
+      this.getSemestrWithCurriculum(id);
+      console.log("aaaa");
+    },
+    getSemestrWithCurriculum(id) {
+      this.$api
+        .get(`smester/with-curr/get/${id}`)
+        .then((res) => {
+          if (res) {
+            this.eexam.education_year = res.education_year.id;
+            this.eexam.semester = res.semester.id;
+            this.educationYearName =
+              res.education_year.code + "(" + res.education_year.name + ")";
+            this.semesterName = res.semester.name;
+          }
+        })
+        .catch((err) => {})
+        .finally(() => {});
+    },
   },
-  mounted() {
-    $(this.$refs.datetimepicker).datetimepicker({
-      format: "YYYY-MM-DD HH:mm",
-      // Specify other options here
-    });
-  },
+  mounted() {},
   created() {
     this.getExamType();
     this.getCurriculum();
