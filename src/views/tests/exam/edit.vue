@@ -207,38 +207,29 @@
                         </div>
                       </div>
                     </div>
-                    <!-- <div class="row">
-                      <div class="col-md-6">
+                    <div class="row">
+                      <!-- <div class="col-md-6">
                         <div class="form-group">
                           <label>
                             Boshlanish vaqti<span class="text-danger">*</span>
                           </label>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>
-                            Tugash vaqti <span class="text-danger">*</span>
-                          </label>
-                          <ValidationProvider
-                            name="Tugash vaqti"
-                            rules="required"
-                            v-slot="{ errors }"
-                          >
-                            <datepicker
+                          <div class="position-relative has-icon-right">
+                            <input
+                              type="text"
+                              class="form-control"
                               placeholder="YYYY-MM-DD H:M"
-                              v-model="eexam.finish_at"
-                              input-class="form-control"
                             />
                             <span
-                              class="text-danger"
-                              v-if="errors.length > 0"
-                              >{{ errors[0] }}</span
+                              class="form-control-position cursor-pointer"
+                              @click="openCalendar"
                             >
-                          </ValidationProvider>
+                              <i class="fa fa-calendar kv-dp-icon"></i>
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </div> -->
+                      </div> -->
+                      <div class="col-md-6"></div>
+                    </div>
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
@@ -558,7 +549,7 @@
 import { ValidationProvider, extend, ValidationObserver } from "vee-validate";
 import { required } from "vee-validate/dist/rules";
 import Modal from "../../../components/Modal.vue";
-import Datepicker from "vuejs-datepicker";
+import "vue2-datepicker/index.css";
 
 extend("required", {
   ...required,
@@ -570,7 +561,6 @@ export default {
     ValidationObserver,
     ValidationProvider,
     Modal,
-    Datepicker,
   },
   data() {
     return {
@@ -613,6 +603,11 @@ export default {
         random: "Ha",
         subject: "",
       },
+      config: {
+        type: "datetime", // bu sana va vaqtni tanlash uchun
+        format: "YYYY-MM-DD HH:mm", // chiqarish formati
+        valueType: "format", // v-model qiymati shu formatda bo'ladi
+      },
     };
   },
   methods: {
@@ -626,8 +621,8 @@ export default {
         semester: this.eexam.semester,
         exam_type: this.eexam.exam_type,
         exam_status: true,
-        begin_time: "2023-11-30 21:35",
-        end_time: "2023-11-30 21:55",
+        begin_time: "2023-12-02 11:25",
+        end_time: "2023-12-02 11:45",
         exam_time: parseInt(this.eexam.duration),
         max_score: parseInt(this.eexam.max_ball),
         attempts: parseInt(this.eexam.attempts),
@@ -705,6 +700,10 @@ export default {
         })
         .catch((err) => {})
         .finally(() => {});
+    },
+    updateDateTime(value) {
+      // Sana va vaqtni yangilash uchun metod
+      console.log("Tanlangan sana va vaqt: ", value);
     },
   },
   mounted() {},
