@@ -89,8 +89,14 @@ const router = new VueRouter({
         },
         {
           path: "exam/edit",
-          component: () => import("./views/tests/exam/edit"),
+          component: () => import("./views/tests/exam/create.vue"),
+          name: "exam-create",
+        },
+        {
+          path: "exam/edit/:examId",
+          component: () => import("./views/tests/exam/edit.vue"),
           name: "exam-edit",
+          props:true
         },
       ],
     },

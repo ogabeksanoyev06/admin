@@ -1,17 +1,6 @@
 <template>
   <div>
     <div class="card">
-      <div
-        class="card-header d-flex justify-content-start flex-wrap"
-        style="gap: 10px"
-      >
-        <button  class="btn btn-success">Savollar (0)</button>
-        <button  class="btn btn-outline-info" @click="addGroup">
-          <i class="fa fa-plus"></i>
-          Guruh qo'shish
-        </button>
-        <button  class="btn btn-outline-info">Natija (0)</button>
-      </div>
       <div class="card-content">
         <div class="card-body">
           <ValidationObserver v-slot="{ handleSubmit }">
@@ -393,7 +382,6 @@
                 class="card-footer d-flex justify-content-start justify-content-sm-end flex-wrap"
                 style="gap: 10px"
               >
-                <button class="btn btn-danger w-sm-auto">O'chirish</button>
                 <button type="submit" class="btn btn-success w-sm-auto">
                   Saqlash
                 </button>
@@ -403,154 +391,6 @@
         </div>
       </div>
     </div>
-    <div class="card">
-      <div class="card-header">
-        <h3>Imtihon guruhlari</h3>
-      </div>
-      <div class="card-content">
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-hover table-bordered">
-              <thead>
-                <tr>
-                  <th>Guruh</th>
-                  <th>Fakultet</th>
-                  <th>Til</th>
-                  <th>Boshlanish</th>
-                  <th>Tugash</th>
-                  <th>O'chirish</th>
-                </tr>
-              </thead>
-              <transition name="fade" :duration="2000">
-                <tbody>
-                  <tr v-for="(spec, index) in 2" :key="index">
-                    <td>
-                      <span class="cursor-pointer">SMMT-90/21</span>
-                    </td>
-                    <td>Sirtqi fakulteti</td>
-                    <td>O‘zbek</td>
-                    <td>06.12.2023 14:50</td>
-                    <td>Tugash vaqti</td>
-                    <td>
-                      <button
-                        @click="deleteCourse(courseItem.id)"
-                        class="btn waves-effect waves-light btn-icon rounded-circle btn-flat-danger"
-                        title="O'chirish"
-                      >
-                        <i
-                          class="feather icon-trash-2"
-                          style="font-size: 1.5rem"
-                        />
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </transition>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-    <Modal :modal="modal" @modal-closed="modal = false">
-      <div class="card">
-        <div class="card-header flex-column align-items-start">
-          <h3 class="mb-1">Guruh tanlash</h3>
-          <div class="w-100">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <select class="form-control">
-                    <option :value="null">O'quv yilini tanlang</option>
-                    <option
-                      v-for="(item, key) in 10"
-                      :key="key"
-                      :value="item.id"
-                    >
-                      O'quv yili
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Nom bo‘yicha qidirish"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-content" style="height: 450px; overflow-y: auto">
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-hover table-bordered">
-                <thead>
-                  <tr>
-                    <th>
-                      <fieldset>
-                        <div class="vs-checkbox-con vs-checkbox-primary">
-                          <input type="checkbox" id="isTeacher" />
-                          <span class="vs-checkbox">
-                            <span class="vs-checkbox--check">
-                              <i class="vs-icon feather icon-check" />
-                            </span>
-                          </span>
-                        </div>
-                      </fieldset>
-                    </th>
-                    <th>Nomi º</th>
-                    <th>Fakultet</th>
-                    <th>Ta’lim turi</th>
-                    <th>Ta'lim tili</th>
-                  </tr>
-                </thead>
-                <transition name="fade" :duration="2000">
-                  <tbody>
-                    <tr v-for="(spec, index) in groups" :key="index">
-                      <td>
-                        <fieldset>
-                          <div class="vs-checkbox-con vs-checkbox-primary">
-                            <input type="checkbox" id="isTeacher" />
-                            <span class="vs-checkbox">
-                              <span class="vs-checkbox--check">
-                                <i class="vs-icon feather icon-check" />
-                              </span>
-                            </span>
-                          </div>
-                        </fieldset>
-                      </td>
-                      <td>{{spec.name}}</td>
-                      <td>{{spec.faculty.name}}</td>
-                      <td>{{spac.educationtype.name}}</td>
-                      <td>{{spac.educationLang.name}}</td>
-                    </tr>
-                  </tbody>
-                </transition>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer d-flex justify-content-end">
-          <button class="btn btn-success">Qo'shish</button>
-        </div>
-      </div>
-    </Modal>
-    <Modal :modal="modal" @modal-closed="modal = false">
-      <div class="card">
-        <div class="card-header flex-column align-items-start">
-          <h3>SBHA-50</h3>
-        </div>
-        <div class="card-content">
-          <div class="card-body"></div>
-        </div>
-        <div class="card-footer d-flex justify-content-end">
-          <button class="btn btn-success">Qo'shish</button>
-        </div>
-      </div>
-    </Modal>
   </div>
 </template>
 
@@ -565,7 +405,6 @@ extend("required", {
   message: "{_field_} bo'sh bo'lishi mumkin emas",
 });
 export default {
-  props: ['examId'],
   name: "exam-edit",
   components: {
     ValidationObserver,
@@ -575,7 +414,6 @@ export default {
   },
   data() {
     return {
-      groups:[],
       isSaved:false,
       errorMessage: "",
       successMessage: "",
@@ -619,28 +457,6 @@ export default {
     };
   },
   methods: {
-    getGroup(){
-      this.$http.get('/group/').then((res)=>{
-        this.groups=res.data.results
-      })
-    },
-    getExam(){
-      this.$http.get(`/exam-detail/${this.examId}`).then((res)=>{
-        this.getSubjects(res.data.curriculum.id,res.data.semester.id)
-        this.eexam.name=res.data.name
-        this.eexam.comment=res.data.comment
-        this.eexam.curriculum=res.data.curriculum.id
-        this.eexam.education_year=res.data.education_year.name
-        this.eexam.semester=res.data.semester.id
-        this.eexam.exam_type=res.data.exam_type.id
-        this.eexam.duration=res.data.exam_time
-        this.eexam.max_ball=res.data.max_score
-        this.eexam.attempts=res.data.attempts
-        this.eexam.question_count=res.data.total_count
-        this.eexam.subject=res.data.subject.id
-        console.log(res)
-      })
-    },
     createExam() {
       this.loaded = false;
       const examData = {
@@ -663,10 +479,11 @@ export default {
       this.$api
         .post(`exam/create`, examData)
         .then((res) => {
+          console.log("aa",res);
           if (!res.error) {
             this.notificationMessage('Imtihon yaratildi', "success");
-            this.isSaved=true
-            console.log(res);
+            this.$router.push({ name: "exam-edit",params: { examId: res.id} });
+
           }
         })
         .catch((err) => {
@@ -733,12 +550,8 @@ export default {
         .catch((err) => {})
         .finally(() => {});
     },
-
   },
-  mounted() {
-    this.getGroup()
-    this.getExam()
-  },
+  mounted() {},
   created() {
     this.getExamType();
     this.getCurriculum();
