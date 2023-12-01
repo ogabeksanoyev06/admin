@@ -367,14 +367,18 @@
                         rules="required"
                         v-slot="{ errors }"
                       >
-                        <select class="form-control" v-model="eexam.subject">
+                        <select
+                          class="form-control"
+                          v-model="eexam.subject"
+                          :disabled="eexam.curriculum === ''"
+                        >
                           <option :value="null">Fanni tanlang</option>
                           <option
-                            v-for="(item, key) in 10"
+                            v-for="(item, key) in subjects"
                             :key="key"
-                            :value="item.id"
+                            :value="item.subject.id"
                           >
-                            O'quv reja
+                            {{ item.subject.name }}
                           </option>
                         </select>
                         <span class="text-danger" v-if="errors.length > 0">{{
@@ -591,6 +595,7 @@ export default {
       curriculum: [],
       educationYearName: "",
       semesterName: "",
+      subjects: [],
       eexam: {
         name: "",
         comment: "",
@@ -628,7 +633,7 @@ export default {
         attempts: parseInt(this.eexam.attempts),
         total_count: parseInt(this.eexam.question_count),
         is_random: true,
-        subject: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        subject: this.eexam.subject,
       };
       this.$api
         .post(`exam/create`, examData)
@@ -670,6 +675,17 @@ export default {
         .catch((err) => {})
         .finally(() => {});
     },
+    getSubjects(curriculumId, semesterId) {
+      this.$api
+        .get(`subjects/curriculum/${curriculumId}/smester/${semesterId}`)
+        .then((res) => {
+          if (res) {
+            this.subjects = res;
+          }
+        })
+        .catch((err) => {})
+        .finally(() => {});
+    },
     currId(id) {
       this.getSemestrWithCurriculum(id);
       console.log("aaaa");
@@ -684,6 +700,7 @@ export default {
             this.educationYearName =
               res.education_year.code + "(" + res.education_year.name + ")";
             this.semesterName = res.semester.name;
+            this.getSubjects(id, res.semester.id);
           }
         })
         .catch((err) => {})
