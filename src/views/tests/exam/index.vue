@@ -11,7 +11,7 @@
                     class="btn btn-primary waves-effect waves-light"
                     @click="addExamTest"
                   >
-                    Imtihon yaratrish
+                    Imtihon yaratish
                   </button>
                 </div>
               </div>
@@ -20,7 +20,7 @@
                   <select class="form-control">
                     <option :value="null">O'quv yilini tanlang</option>
                     <option
-                      v-for="(item, key) in 10"
+                      v-for="(item, key) in exams"
                       :key="key"
                       :value="item.id"
                     >
@@ -70,16 +70,16 @@
                 </thead>
                 <transition name="fade" :duration="2000">
                   <tbody class="table-bordered">
-                    <tr v-for="(tariff, index) in 10" :key="index">
+                    <tr v-for="(tariff, index) in exams" :key="index">
                       <td>
-                        <p>27.11.2023 Yakuniy nazorat. Audit. E-bino (RUS)</p>
+                        <p>{{tariff.name}}</p>
                         <span class="text-muted">
-                          AUDIT / Yakuniy nazorat / MAXMUDOV A. A.
+                          {{tariff.subject.name}} / {{tariff.exam_type.name}}
                         </span>
                       </td>
                       <td>
-                        2023-2024 <br />
-                        <span class="text-muted">9-semestr </span>
+                       {{tariff.education_year.name}} <br />
+                        <span class="text-muted">{{tariff.semester.name}} </span>
                       </td>
                       <td>SBHA-01, SBHA-02</td>
                       <td>322 / 25</td>
@@ -130,12 +130,22 @@ export default {
         liDisable: "disabled",
         button: "page-link",
       },
+      exams:[]
     };
+  },
+  mounted() {
+    this.getExams()
   },
   methods: {
     addExamTest() {
-      this.$router.push({ name: "exam-edit" });
+      this.$router.push({ name: "exam-create" });
     },
+    getExams(){
+      this.$http.get('/exams').then((res)=>{
+        console.log("aaa",res)
+        this.exams=res.data.results
+      })
+    }
   },
 };
 </script>
