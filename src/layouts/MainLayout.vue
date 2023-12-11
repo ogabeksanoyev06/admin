@@ -186,8 +186,9 @@ export default {
     },
   },
   watch: {
-    $route() {
-      this.currentRouteName();
+    $route(to, from) {
+      const currentRoute = this.$route.name;
+      this.$store.commit("setCurrentRouteName", currentRoute);
     },
   },
   created() {

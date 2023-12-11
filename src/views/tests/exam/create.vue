@@ -397,8 +397,7 @@
 <script>
 import { ValidationProvider, extend, ValidationObserver } from "vee-validate";
 import { required } from "vee-validate/dist/rules";
-import Modal from "../../../components/Modal.vue";
-import Datepicker from "vuejs-datepicker";
+// import Datepicker from "vuejs-datepicker";
 
 extend("required", {
   ...required,
@@ -409,17 +408,12 @@ export default {
   components: {
     ValidationObserver,
     ValidationProvider,
-    Modal,
-    Datepicker,
   },
   data() {
     return {
-      isSaved:false,
       errorMessage: "",
       successMessage: "",
       loading: false,
-      modal: false,
-      modalGroup: false,
       examTypeList: [],
       examActiveList: [
         {
@@ -467,8 +461,8 @@ export default {
         semester: this.eexam.semester,
         exam_type: this.eexam.exam_type,
         exam_status: true,
-        begin_time: "2023-12-1 21:35",
-        end_time: "2023-12-1 21:55",
+        begin_time: "2023-12-04 16:30",
+        end_time: "2023-12-04 16:50",
         exam_time: parseInt(this.eexam.duration),
         max_score: parseInt(this.eexam.max_ball),
         attempts: parseInt(this.eexam.attempts),
@@ -479,22 +473,20 @@ export default {
       this.$api
         .post(`exam/create`, examData)
         .then((res) => {
-          console.log("aa",res);
-          if (!res.error) {
-            this.notificationMessage('Imtihon yaratildi', "success");
-            this.$router.push({ name: "exam-edit",params: { examId: res.id} });
-
+          if (res.status) {
+            this.notificationMessage(res.message, "success");
+            this.$router.push({
+              name: "exam-detail",
+              params: { exam_id: res.id },
+            });
           }
         })
         .catch((err) => {
-          console.error("Imtihon yaratishda xato yuz berdi:", err);
+          this.notificationMessage(err.response.data.message, "error");
         })
         .finally(() => {
           this.loaded = true;
         });
-    },
-    addGroup() {
-      this.modal = true;
     },
     getExamType() {
       this.$api
@@ -532,7 +524,6 @@ export default {
     },
     currId(id) {
       this.getSemestrWithCurriculum(id);
-      console.log("aaaa");
     },
     getSemestrWithCurriculum(id) {
       this.$api

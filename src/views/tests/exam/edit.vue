@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ exam_id }}
     <div class="card">
       <div
         class="card-header d-flex justify-content-start flex-wrap"
@@ -17,7 +18,7 @@
           <ValidationObserver v-slot="{ handleSubmit }">
             <form
               class="form form-horizontal"
-              @submit.prevent="handleSubmit(createExam)"
+              @submit.prevent="handleSubmit(createEexam)"
             >
               <div class="form-body">
                 <div class="row">
@@ -442,113 +443,12 @@
         </div>
       </div>
     </div>
-    <Modal :modal="modal" @modal-closed="modal = false">
-      <div class="card">
-        <div class="card-header flex-column align-items-start">
-          <h3 class="mb-1">Guruh tanlash</h3>
-          <div class="w-100">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <select class="form-control">
-                    <option :value="null">O'quv yilini tanlang</option>
-                    <option
-                      v-for="(item, key) in 10"
-                      :key="key"
-                      :value="item.id"
-                    >
-                      O'quv yili
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Nom bo‘yicha qidirish"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-content" style="height: 450px; overflow-y: auto">
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-hover table-bordered">
-                <thead>
-                  <tr>
-                    <th>
-                      <fieldset>
-                        <div class="vs-checkbox-con vs-checkbox-primary">
-                          <input type="checkbox" id="isTeacher" />
-                          <span class="vs-checkbox">
-                            <span class="vs-checkbox--check">
-                              <i class="vs-icon feather icon-check" />
-                            </span>
-                          </span>
-                        </div>
-                      </fieldset>
-                    </th>
-                    <th>Nomi º</th>
-                    <th>Fakultet</th>
-                    <th>Ta’lim turi</th>
-                    <th>Ta'lim tili</th>
-                  </tr>
-                </thead>
-                <transition name="fade" :duration="2000">
-                  <tbody>
-                    <tr v-for="(spec, index) in groups" :key="index">
-                      <td>
-                        <fieldset>
-                          <div class="vs-checkbox-con vs-checkbox-primary">
-                            <input type="checkbox" id="isTeacher" />
-                            <span class="vs-checkbox">
-                              <span class="vs-checkbox--check">
-                                <i class="vs-icon feather icon-check" />
-                              </span>
-                            </span>
-                          </div>
-                        </fieldset>
-                      </td>
-                      <td>{{ spec.name }}</td>
-                      <td>{{ spec.faculty.name }}</td>
-                      <td>{{ spac.educationtype.name }}</td>
-                      <td>{{ spac.educationLang.name }}</td>
-                    </tr>
-                  </tbody>
-                </transition>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer d-flex justify-content-end">
-          <button class="btn btn-success">Qo'shish</button>
-        </div>
-      </div>
-    </Modal>
-    <Modal :modal="modal" @modal-closed="modal = false">
-      <div class="card">
-        <div class="card-header flex-column align-items-start">
-          <h3>SBHA-50</h3>
-        </div>
-        <div class="card-content">
-          <div class="card-body"></div>
-        </div>
-        <div class="card-footer d-flex justify-content-end">
-          <button class="btn btn-success">Qo'shish</button>
-        </div>
-      </div>
-    </Modal>
   </div>
 </template>
 
 <script>
 import { ValidationProvider, extend, ValidationObserver } from "vee-validate";
 import { required } from "vee-validate/dist/rules";
-import Modal from "../../../components/Modal.vue";
 import "vue2-datepicker/index.css";
 
 extend("required", {
@@ -560,17 +460,13 @@ export default {
   components: {
     ValidationObserver,
     ValidationProvider,
-    Modal,
   },
   data() {
     return {
-      groups: [],
-      isSaved: false,
+      exam_id: null,
       errorMessage: "",
       successMessage: "",
       loading: false,
-      modal: false,
-      modalGroup: false,
       examTypeList: [],
       examActiveList: [
         {
@@ -635,8 +531,8 @@ export default {
         console.log(res);
       });
     },
-    createExam() {
-      this.loaded = false;
+    createEexam() {
+      this.loading = true;
       const examData = {
         name: this.eexam.name,
         comment: this.eexam.comment,
@@ -645,8 +541,8 @@ export default {
         semester: this.eexam.semester,
         exam_type: this.eexam.exam_type,
         exam_status: true,
-        begin_time: "2023-11-30 21:35",
-        end_time: "2023-11-30 21:55",
+        begin_time: "2023-12-02 15:00",
+        end_time: "2023-12-02 15:30",
         exam_time: parseInt(this.eexam.duration),
         max_score: parseInt(this.eexam.max_ball),
         attempts: parseInt(this.eexam.attempts),
@@ -654,20 +550,20 @@ export default {
         is_random: true,
         subject: this.eexam.subject,
       };
+      console.log(examData);
       this.$api
-        .post(`exam/create`, examData)
+        .post("exam/create", examData)
         .then((res) => {
-          if (!res.error) {
+          if (res) {
             this.notificationMessage("Imtihon yaratildi", "success");
-            this.isSaved = true;
-            console.log(res);
           }
         })
         .catch((err) => {
-          console.error("Imtihon yaratishda xato yuz berdi:", err);
+          this.notificationMessage(err, "error");
+          console.log(err.response.data);
         })
         .finally(() => {
-          this.loaded = true;
+          this.loading = true;
         });
     },
     addGroup() {
@@ -731,6 +627,7 @@ export default {
   created() {
     this.getExamType();
     this.getCurriculum();
+    this.exam_id = this.$router.params.exam_id;
   },
 };
 </script>

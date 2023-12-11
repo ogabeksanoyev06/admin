@@ -71,15 +71,18 @@
                 <transition name="fade" :duration="2000">
                   <tbody class="table-bordered">
                     <tr v-for="(tariff, index) in exams" :key="index">
-                      <td>
-                        <p>{{tariff.name}}</p>
+                      <td @click="goToLink(tariff.id)">
+                        <p>{{ tariff.name }}</p>
                         <span class="text-muted">
-                          {{tariff.subject.name}} / {{tariff.exam_type.name}}
+                          {{ tariff.subject.name }} /
+                          {{ tariff.exam_type.name }}
                         </span>
                       </td>
                       <td>
-                       {{tariff.education_year.name}} <br />
-                        <span class="text-muted">{{tariff.semester.name}} </span>
+                        {{ tariff.education_year.name }} <br />
+                        <span class="text-muted"
+                          >{{ tariff.semester.name }}
+                        </span>
                       </td>
                       <td>SBHA-01, SBHA-02</td>
                       <td>322 / 25</td>
@@ -130,22 +133,28 @@ export default {
         liDisable: "disabled",
         button: "page-link",
       },
-      exams:[]
+      exams: [],
     };
   },
   mounted() {
-    this.getExams()
+    this.getExams();
   },
   methods: {
     addExamTest() {
       this.$router.push({ name: "exam-create" });
     },
-    getExams(){
-      this.$http.get('/exams').then((res)=>{
-        console.log("aaa",res)
-        this.exams=res.data.results
-      })
-    }
+    getExams() {
+      this.$http.get("/exams").then((res) => {
+        console.log("aaa", res);
+        this.exams = res.data.results;
+      });
+    },
+    goToLink(id) {
+      this.$router.push({
+        name: "exam-detail",
+        params: { exam_id: id },
+      });
+    },
   },
 };
 </script>

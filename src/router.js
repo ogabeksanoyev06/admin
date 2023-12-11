@@ -88,14 +88,14 @@ const router = new VueRouter({
           name: "exam-index",
         },
         {
-          path: "exam-detail/:examId",
-          component: () => import("./views/tests/exam/exam-detail"),
-          name: "exam-detail",
-        },
-        {
-          path: "exam/edit",
+          path: "exam/create",
           component: () => import("./views/tests/exam/create.vue"),
           name: "exam-create",
+        },
+        {
+          path: "exam-detail/:exam_id",
+          component: () => import("./views/tests/exam/exam-detail"),
+          name: "exam-detail",
         },
       ],
     },
