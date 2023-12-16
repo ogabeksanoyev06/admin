@@ -378,38 +378,43 @@
               <div class="table-responsive">
                 <table class="table table-hover table-bordered">
                   <thead>
-                  <tr>
-                    <th>Guruh</th>
-                    <th>Fakultet</th>
-                    <th>Til</th>
-                    <th>Boshlanish</th>
-                    <th>Tugash</th>
-                    <th>O'chirish</th>
-                  </tr>
+                    <tr>
+                      <th>Guruh</th>
+                      <th>Fakultet</th>
+                      <th>Til</th>
+                      <th>Boshlanish</th>
+                      <th>Tugash</th>
+                      <th>O'chirish</th>
+                    </tr>
                   </thead>
                   <transition name="fade" :duration="2000">
                     <tbody>
-                    <tr v-for="(spec, index) in addedGroups" :key="index">
-                      <td>
-                        <span class="cursor-pointer">{{spec.name}}</span>
-                      </td>
-                      <td>{{spec.faculty}}</td>
-                      <td>{{spec.educationLang}}</td>
-                      <td>06.12.2023 14:50</td>
-                      <td>Tugash vaqti</td>
-                      <td>
-                        <button
+                      <tr v-for="(spec, index) in addedGroups" :key="index">
+                        <td>
+                          <span
+                            class="cursor-pointer"
+                            @click="studentGroupId(spec.id)"
+                          >
+                            {{ spec.name }}
+                          </span>
+                        </td>
+                        <td>{{ spec.faculty }}</td>
+                        <td>{{ spec.educationLang }}</td>
+                        <td>06.12.2023 14:50</td>
+                        <td>Tugash vaqti</td>
+                        <td>
+                          <button
                             @click="delteGroup(spec.id)"
                             class="btn waves-effect waves-light btn-icon rounded-circle btn-flat-danger"
                             title="O'chirish"
-                        >
-                          <i
+                          >
+                            <i
                               class="feather icon-trash-2"
                               style="font-size: 1.5rem"
-                          />
-                        </button>
-                      </td>
-                    </tr>
+                            />
+                          </button>
+                        </td>
+                      </tr>
                     </tbody>
                   </transition>
                 </table>
@@ -418,76 +423,53 @@
           </div>
         </div>
       </div>
-    <Modal :modal="modal" @modal-closed="modal = false">
-      <div class="card">
-        <div class="card-header flex-column align-items-start">
-          <h3 class="mb-1">Guruh tanlash</h3>
-          <div class="w-100">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <select class="form-control" v-model="educationLangId">
-                    <option :value="''" disabled>Ta'lim tilini tanlang</option>
-                    <option
-                      v-for="(item, key) in educationLang"
-                      :key="key"
-                      :value="item.id"
-                    >
-                      {{ item.name }}
-                    </option>
-                  </select>
+      <Modal :modal="modal" @modal-closed="modal = false" v-if="modalGroup">
+        <div class="card">
+          <div class="card-header flex-column align-items-start">
+            <h3 class="mb-1">Guruh tanlash</h3>
+            <div class="w-100">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <select class="form-control" v-model="educationLangId">
+                      <option :value="''" disabled>
+                        Ta'lim tilini tanlang
+                      </option>
+                      <option
+                        v-for="(item, key) in educationLang"
+                        :key="key"
+                        :value="item.id"
+                      >
+                        {{ item.name }}
+                      </option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Nom bo‘yicha qidirish"
-                  />
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Nom bo‘yicha qidirish"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="card-content" style="height: 450px; overflow-y: auto">
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-hover table-bordered">
-                <thead>
-                  <tr>
-                    <th>
-                      <div class="position-relative has-icon-left">
-                        <div class="vs-checkbox-con vs-checkbox-primary">
-                          <input
-                            type="checkbox"
-                            v-model="allSelected"
-                            @change="toggleAll"
-                          />
-                          <span class="vs-checkbox">
-                            <span class="vs-checkbox--check">
-                              <i class="vs-icon feather icon-check" />
-                            </span>
-                          </span>
-                        </div>
-                      </div>
-                    </th>
-                    <th>Nomi º</th>
-                    <th>Fakultet</th>
-                    <th>Ta’lim turi</th>
-                    <th>Ta'lim tili</th>
-                  </tr>
-                </thead>
-                <transition name="fade" :duration="2000">
-                  <tbody>
-                    <tr v-for="(item, index) in groupList" :key="index">
-                      <td>
+          <div class="card-content" style="height: 450px; overflow-y: auto">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                  <thead>
+                    <tr>
+                      <th>
                         <div class="position-relative has-icon-left">
                           <div class="vs-checkbox-con vs-checkbox-primary">
                             <input
                               type="checkbox"
-                              :value="item.id"
-                              v-model="group_ids"
+                              v-model="allSelected"
+                              @change="toggleAll"
                             />
                             <span class="vs-checkbox">
                               <span class="vs-checkbox--check">
@@ -496,36 +478,124 @@
                             </span>
                           </div>
                         </div>
-                      </td>
-                      <td>{{ item.name }}</td>
-                      <td>{{ item.faculty ? item.faculty.name : "" }}</td>
-                      <td>
-                        {{
-                          item.group_curriculum
-                            ? item.group_curriculum.educationtype.name
-                            : ""
-                        }}
-                      </td>
-                      <td>
-                        {{
-                          item.educationLang.name ? item.educationLang.name : ""
-                        }}
-                      </td>
+                      </th>
+                      <th>Nomi º</th>
+                      <th>Fakultet</th>
+                      <th>Ta’lim turi</th>
+                      <th>Ta'lim tili</th>
                     </tr>
-                  </tbody>
-                </transition>
-              </table>
+                  </thead>
+                  <transition name="fade" :duration="2000">
+                    <tbody>
+                      <tr v-for="(item, index) in groupList" :key="index">
+                        <td>
+                          <div class="position-relative has-icon-left">
+                            <div class="vs-checkbox-con vs-checkbox-primary">
+                              <input
+                                type="checkbox"
+                                :value="item.id"
+                                v-model="group_ids"
+                              />
+                              <span class="vs-checkbox">
+                                <span class="vs-checkbox--check">
+                                  <i class="vs-icon feather icon-check" />
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.faculty ? item.faculty.name : "" }}</td>
+                        <td>
+                          {{
+                            item.group_curriculum
+                              ? item.group_curriculum.educationtype.name
+                              : ""
+                          }}
+                        </td>
+                        <td>
+                          {{
+                            item.educationLang.name
+                              ? item.educationLang.name
+                              : ""
+                          }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </transition>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer d-flex justify-content-end">
+            <button class="btn btn-success" @click="updateGroups">
+              Qo'shish
+            </button>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        :modal="studentModal"
+        @modal-closed="studentModal = false"
+        v-if="!modalGroup"
+      >
+        <div class="card">
+          <div class="card-header">
+            <h3>Imtihon guruhlari</h3>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                  <thead>
+                    <tr>
+                      <th>
+                        <div
+                          class="custom-control custom-switch custom-control-inline"
+                        >
+                          <input type="checkbox" class="custom-control-input" />
+                          <label class="custom-control-label"></label>
+                        </div>
+                      </th>
+                      <th>Talabalar</th>
+                      <th>Urunishlar</th>
+                      <th>To'g'ri</th>
+                      <th>Foiz</th>
+                      <th>Tugadi</th>
+                    </tr>
+                  </thead>
+                  <transition name="fade" :duration="2000">
+                    <tbody>
+                      <tr
+                        v-for="(item, index) in studentsGroupList"
+                        :key="index"
+                      >
+                        <td>
+                          <div
+                            class="custom-control custom-switch custom-control-inline"
+                          >
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                            />
+                            <label class="custom-control-label"></label>
+                          </div>
+                        </td>
+                        <td>{{ item.full_name }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </transition>
+                </table>
+              </div>
             </div>
           </div>
         </div>
-        <div class="card-footer d-flex justify-content-end">
-          <button class="btn btn-success" @click="updateGroups">
-            Qo'shish
-          </button>
-        </div>
-      </div>
-    </Modal>
-  </div>
+      </Modal>
+    </div>
   </div>
 </template>
 
@@ -553,6 +623,7 @@ export default {
       errorMessage: "",
       loading: false,
       modal: false,
+      studentModal: false,
       modalGroup: false,
       exam_id: null,
       curriculum: [],
@@ -593,8 +664,9 @@ export default {
       educationLangId: "",
       groupList: [],
       group_ids: [],
-      addedGroups:[],
+      addedGroups: [],
       allSelected: false,
+      studentsGroupList: [],
     };
   },
   methods: {
@@ -621,13 +693,30 @@ export default {
           this.notificationMessage(err.response.data.message, "error");
         });
     },
-    delteGroup(id){
-      this.$api.patch(`exam/${this.exam_id}/delete-groups`,{
-        "group_id": id
-      }).then((res)=>{
-        this.notificationMessage(res.message, "success");
-        this.getExamDetail()
-      })
+    getStudentsGroup(id) {
+      this.loading = true;
+      this.$api
+        .get(`student-group/${id}/`)
+        .then((res) => {
+          this.studentsGroupList = res;
+        })
+        .catch((err) => {
+          this.notificationMessage(err.response.data.message, "error");
+          this.studentsGroupList = [];
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    delteGroup(id) {
+      this.$api
+        .patch(`exam/${this.exam_id}/delete-groups`, {
+          group_id: id,
+        })
+        .then((res) => {
+          this.notificationMessage(res.message, "success");
+          this.getExamDetail();
+        });
     },
     getGroupListFilter() {
       this.$api
@@ -672,7 +761,7 @@ export default {
         .get(`exam-detail/${this.exam_id}`)
         .then((res) => {
           if (res) {
-            this.addedGroups=res.group_list;
+            this.addedGroups = res.group_list;
             this.eexam_detail.name = res.name;
             this.eexam_detail.comment = res.comment;
             this.eexam_detail.curriculum = res.curriculum.id;
@@ -786,6 +875,12 @@ export default {
     },
     addGroup() {
       this.modal = true;
+      this.modalGroup = true;
+    },
+    studentGroupId(id) {
+      this.studentModal = true;
+      this.modalGroup = false;
+      this.getStudentsGroup(id);
     },
   },
   computed: {
