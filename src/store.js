@@ -9,11 +9,13 @@ const store = new Vuex.Store({
     facultyList: [],
     facultyType: [],
     educationYear: [],
+    group: [],
   },
   getters: {
     facultyList: (state) => state.facultyList,
     facultyType: (state) => state.facultyType,
     educationYear: (state) => state.educationYear,
+    group: (state) => state.group,
   },
   mutations: {
     setCurrentRouteName(state, currentRoute) {
@@ -24,6 +26,7 @@ const store = new Vuex.Store({
       state.facultyType = data;
     },
     setEducationYear: (state, data) => (state.educationYear = data),
+    setGroup: (state, data) => (state.group = data),
   },
   actions: {
     async getFacultyList({ commit }) {
@@ -75,6 +78,23 @@ const store = new Vuex.Store({
           .finally(() => {});
       } catch (e) {
         console.log(e);
+      }
+    },
+    async getGroup({ commit }) {
+      try {
+        await this._vm.$api
+          .get("group/?limit=100")
+          .then((data) => {
+            if (data) {
+              commit("setGroup", data.results);
+            }
+          })
+          .catch((error) => {
+            console.log("Error on getting group" + error);
+          })
+          .finally(() => {});
+      } catch (e) {
+        console.log(e, "dadsdsds");
       }
     },
   },

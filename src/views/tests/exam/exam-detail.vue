@@ -376,35 +376,21 @@
           <h3 class="mb-1">Guruh tanlash</h3>
           <div class="w-100">
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-group">
-                  <select class="form-control">
-                    <option :value="null">O'quv yilini tanlang</option>
+                  <select class="form-control" v-model="educationLangId">
+                    <option :value="''" disabled>Ta'lim tilini tanlang</option>
                     <option
-                      v-for="(item, key) in 10"
+                      v-for="(item, key) in educationLang"
                       :key="key"
                       :value="item.id"
                     >
-                      O'quv yili
+                      {{ item.name }}
                     </option>
                   </select>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <select class="form-control">
-                    <option :value="null">Ta'lim tilini tanlang</option>
-                    <option
-                      v-for="(item, key) in 10"
-                      :key="key"
-                      :value="item.id"
-                    >
-                      O'quv yili
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-group">
                   <input
                     type="text"
@@ -423,16 +409,20 @@
                 <thead>
                   <tr>
                     <th>
-                      <fieldset>
+                      <div class="position-relative has-icon-left">
                         <div class="vs-checkbox-con vs-checkbox-primary">
-                          <input type="checkbox" id="isTeacher" />
+                          <input
+                            type="checkbox"
+                            v-model="allSelected"
+                            @change="toggleAll"
+                          />
                           <span class="vs-checkbox">
                             <span class="vs-checkbox--check">
                               <i class="vs-icon feather icon-check" />
                             </span>
                           </span>
                         </div>
-                      </fieldset>
+                      </div>
                     </th>
                     <th>Nomi º</th>
                     <th>Fakultet</th>
@@ -442,23 +432,37 @@
                 </thead>
                 <transition name="fade" :duration="2000">
                   <tbody>
-                    <tr v-for="(spec, index) in groups" :key="index">
+                    <tr v-for="(item, index) in groupList" :key="index">
                       <td>
-                        <fieldset>
+                        <div class="position-relative has-icon-left">
                           <div class="vs-checkbox-con vs-checkbox-primary">
-                            <input type="checkbox" id="isTeacher" />
+                            <input
+                              type="checkbox"
+                              :value="item.id"
+                              v-model="group_ids"
+                            />
                             <span class="vs-checkbox">
                               <span class="vs-checkbox--check">
                                 <i class="vs-icon feather icon-check" />
                               </span>
                             </span>
                           </div>
-                        </fieldset>
+                        </div>
                       </td>
-                      <td>{{ spec.name }}</td>
-                      <td>{{ spec.faculty.name }}</td>
-                      <td>{{ spac.educationtype.name }}</td>
-                      <td>{{ spac.educationLang.name }}</td>
+                      <td>{{ item.name }}</td>
+                      <td>{{ item.faculty ? item.faculty.name : "" }}</td>
+                      <td>
+                        {{
+                          item.group_curriculum
+                            ? item.group_curriculum.educationtype.name
+                            : ""
+                        }}
+                      </td>
+                      <td>
+                        {{
+                          item.educationLang.name ? item.educationLang.name : ""
+                        }}
+                      </td>
                     </tr>
                   </tbody>
                 </transition>
@@ -467,7 +471,9 @@
           </div>
         </div>
         <div class="card-footer d-flex justify-content-end">
-          <button class="btn btn-success">Qo'shish</button>
+          <button class="btn btn-success" @click="updateGroups">
+            Qo'shish
+          </button>
         </div>
       </div>
     </Modal>
@@ -479,6 +485,7 @@ import { ValidationProvider, extend, ValidationObserver } from "vee-validate";
 import { required } from "vee-validate/dist/rules";
 import Loading from "../../../components/Loading.vue";
 import Modal from "../../../components/Modal.vue";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 extend("required", {
   ...required,
   message: "{_field_} bo'sh bo'lishi mumkin emas",
@@ -533,9 +540,70 @@ export default {
         random: "Ha",
         subject: "",
       },
+      educationLang: [],
+      educationLangId: "",
+      groupList: [],
+      group_ids: [],
+      allSelected: false,
     };
   },
   methods: {
+    ...mapActions(["getGroup"]),
+    getEducationLang() {
+      this.$api
+        .get("educationlang/?limit=20")
+        .then((res) => {
+          if (res) {
+            this.educationLang = res.results;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getGroupsList() {
+      this.$api
+        .get("group/?limit=100")
+        .then((res) => {
+          this.groupList = res.results;
+        })
+        .catch((err) => {
+          this.notificationMessage(err.response.data.message, "error");
+        });
+    },
+    getGroupListFilter() {
+      this.$api
+        .get(
+          `groups-list/${this.educationLangId}/get/${this.eexam_detail.curriculum}/`
+        )
+        .then((res) => {
+          this.groupList = res;
+        })
+        .catch((err) => {
+          this.notificationMessage(err.response.data.message, "error");
+          this.groupList = [];
+        });
+    },
+    updateGroups() {
+      const payload = {
+        group_ids: this.group_ids,
+      };
+      this.$api
+        .patch(`exam/${this.exam_id}/update-groups`, payload)
+        .then((res) => {
+          this.notificationMessage(res.message, "success");
+        })
+        .catch((err) => {
+          this.notificationMessage(err.response.data.message, "error");
+        });
+    },
+    toggleAll() {
+      if (this.allSelected) {
+        this.group_ids = this.groupList.map((item) => item.id);
+      } else {
+        this.group_ids = [];
+      }
+    },
     getExamDetail() {
       if (!this.exam_id) {
         this.notificationMessage("exam_id olishda xatolik bo'ldi", "error");
@@ -661,11 +729,24 @@ export default {
       this.modal = true;
     },
   },
-  watch: {},
+  computed: {
+    ...mapGetters(["group"]),
+    ...mapMutations(["setGroup"]),
+  },
+  watch: {
+    educationLangId() {
+      this.getGroupListFilter();
+    },
+    group_ids(newVal, oldVal) {
+      this.allSelected = newVal.length === this.groupList.length;
+    },
+  },
   mounted() {
     this.getExamDetail();
     this.getCurriculum();
     this.getExamType();
+    this.getEducationLang();
+    this.getGroupsList();
   },
   created() {
     this.exam_id = this.$route.params.exam_id;

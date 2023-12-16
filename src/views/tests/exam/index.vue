@@ -17,28 +17,28 @@
               </div>
               <div class="col-md-3">
                 <div class="form-group">
-                  <select class="form-control">
+                  <select class="form-control" v-model="educationYearId">
                     <option :value="null">O'quv yilini tanlang</option>
                     <option
-                      v-for="(item, key) in exams"
+                      v-for="(item, key) in educationYear"
                       :key="key"
                       :value="item.id"
                     >
-                      O'quv yili
+                      {{ item.name }}
                     </option>
                   </select>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group">
-                  <select class="form-control">
+                  <select class="form-control" v-model="groupId">
                     <option :value="null">Guruhni tanlang</option>
                     <option
-                      v-for="(item, key) in 10"
+                      v-for="(item, key) in group"
                       :key="key"
                       :value="item.id"
                     >
-                      O'quv yili
+                      {{ item.name }}
                     </option>
                   </select>
                 </div>
@@ -53,7 +53,6 @@
                 </div>
               </div>
             </div>
-
             <div class="table-responsive">
               <table class="table table-hover mb-0">
                 <thead>
@@ -103,7 +102,6 @@
               </table>
             </div>
           </div>
-
           <div class="d-flex justify-content-center">
             <v-pagination
               v-model="currentPage"
@@ -119,6 +117,7 @@
 
 <script>
 import vPagination from "vue-plain-pagination";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "exam-index",
   components: { vPagination },
@@ -126,6 +125,8 @@ export default {
     return {
       totalSize: 1,
       currentPage: 1,
+      educationYearId: null,
+      groupId: null,
       bootstrapPaginationClasses: {
         ul: "pagination",
         li: "page-item",
@@ -136,10 +137,18 @@ export default {
       exams: [],
     };
   },
+
+  computed: {
+    ...mapGetters(["educationYear", "group"]),
+  },
   mounted() {
     this.getExams();
+    this.getEducationYear();
+    this.getGroup();
   },
   methods: {
+    ...mapActions(["getEducationYear", "getGroup"]),
+
     addExamTest() {
       this.$router.push({ name: "exam-create" });
     },

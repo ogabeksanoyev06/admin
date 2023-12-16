@@ -2,7 +2,6 @@
   <div class="content-wrapper">
     <div class="content-header row"></div>
     <div class="content-body">
-      im here man
       <video-player :options="videoOptions" ref="myPlayer"></video-player>
     </div>
   </div>
@@ -24,7 +23,6 @@ export default {
           src: "http://localhost:8080/video/index.m3u8",
           withCredentials: false,
         },
-        live: true,
       },
     };
   },
