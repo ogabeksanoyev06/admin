@@ -516,6 +516,7 @@ export default {
     },
     getExam() {
       this.$http.get(`/exam-detail/${this.examId}`).then((res) => {
+        console.log(res)
         this.getSubjects(res.data.curriculum.id, res.data.semester.id);
         this.eexam.name = res.data.name;
         this.eexam.comment = res.data.comment;
@@ -541,8 +542,8 @@ export default {
         semester: this.eexam.semester,
         exam_type: this.eexam.exam_type,
         exam_status: true,
-        begin_time: "2023-12-02 15:00",
-        end_time: "2023-12-02 15:30",
+        begin_time: "2023-12-19 15:00",
+        end_time: "2023-12-20 15:30",
         exam_time: parseInt(this.eexam.duration),
         max_score: parseInt(this.eexam.max_ball),
         attempts: parseInt(this.eexam.attempts),
