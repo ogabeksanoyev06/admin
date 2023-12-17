@@ -6,7 +6,9 @@
         class="card-header d-flex justify-content-start flex-wrap"
         style="gap: 10px"
       >
+        <router-link :to="{ name: 'test-list', params: { examId: this.exam_id } }">
         <button class="btn btn-success">Savollar (0)</button>
+        </router-link>
         <button class="btn btn-outline-info" @click="addGroup">
           <i class="fa fa-plus"></i>
           Guruh qo'shish

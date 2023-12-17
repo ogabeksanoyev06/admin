@@ -97,6 +97,16 @@ const router = new VueRouter({
           component: () => import("./views/tests/exam/exam-detail"),
           name: "exam-detail",
         },
+        {
+          path: "test-list/:exam_id",
+          component: () => import("./views/tests/exam/test-list.vue"),
+          name: "test-list",
+        },
+        {
+          path: "test-add/:exam_id",
+          component: () => import("./views/tests/exam/test-add.vue"),
+          name: "test-add",
+        },
       ],
     },
   ],
