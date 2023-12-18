@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="card main-area">
     <router-link :to="{ name: 'test-add', params: { examId: this.exam_id } }">
       <button class="button-see btn btn-success waves-effect waves-light">
         Test qo'shish
@@ -21,7 +21,7 @@
         <div
             class="custom-control custom-switch custom-control-inline"
         >
-          <input type="checkbox" v-model="items.active" class="custom-control-input" />
+          <input type="checkbox" v-model="items.is_active" class="custom-control-input" />
           <label class="custom-control-label"></label>
         </div>
     </div>
@@ -32,29 +32,20 @@
 export default {
   data() {
     return {
-      items: [
-        {
-          name:'AAA',
-          active:true
-        }, {
-          name:'AAA',
-          active:true
-        }, {
-          name:'AAA',
-          active:true
-        }, {
-          name:'AAA',
-          active:true
-        }, {
-          name:'AAA',
-          active:true
-        }, {
-          name:'AAA',
-          active:true
-        },
-      ],
+      items: [],
       exam_id:''
     };
+  },
+  methods:{
+    getExams(){
+      axios.get(`https://api.fastlms.uz/api/test/${this.exam_id}/list`).then((res)=>{
+        console.log(res)
+        this.items=res.data
+      })
+    }
+  },
+  mounted() {
+    this.getExams()
   },
   created() {
        this.exam_id = this.$route.params.exam_id;
@@ -62,7 +53,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.main-area{
+  padding: 5px;
+  box-sizing: border-box;
+}
 .list-item-header{
   margin-right: 20px;
 }

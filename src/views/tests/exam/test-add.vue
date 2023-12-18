@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="card main-area">
     <div class="left">
        <textarea
            v-model="inputText"
@@ -18,9 +18,8 @@ Question 2"
       <button v-show="inputText.length>0" class="button-see btn btn-success waves-effect waves-light" @click="convertToJSON">Ko'rish</button>
 
     </div>
-
-
     <div v-show="jsonOutput.length>0" class="right">
+      <div class="title">Test savollari</div>
       <div class="inner">
         <div v-for="(temp,index) in jsonOutput" :key="temp.id">
           <div class="question">
@@ -37,7 +36,6 @@ Question 2"
       <button class="button-see btn btn-success waves-effect waves-light" @click="createTest">saqlash</button>
 
     </div>
-
   </div>
 </template>
 
@@ -47,6 +45,7 @@ export default {
     return {
       inputText: "",
       jsonOutput: [],
+      exam_id:''
     };
   },
   methods: {
@@ -54,16 +53,13 @@ export default {
       return String.fromCharCode(97 + index); // 97 is the ASCII code for 'a'
     },
     convertToJSON() {
-      let trimmedInput = this.inputText;
+      let trimmedInput = this.inputText.trim();
       if (trimmedInput.startsWith("++++")) {
         trimmedInput = trimmedInput.substring(4);
       }
       if (trimmedInput.endsWith("++++")) {
         trimmedInput = trimmedInput.substring(0, trimmedInput.length - 4);
       }
-
-      console.log("Trimmed Input:", trimmedInput); // Debugging
-
       const blocks = trimmedInput.split("++++");
       console.log("Blocks:", blocks); // Debugging
 
@@ -72,6 +68,7 @@ export default {
         console.log("Parts:", parts); // Debugging
 
         const name = parts[0].trim();
+        const exam= this.exam_id
         const answers = parts.slice(1).map((answer) => {
           const isTrue = answer.trim().startsWith("#");
           const name = answer.trim().replace(/^#/, "");
@@ -79,7 +76,7 @@ export default {
         });
 
         console.log("Question and Answers:", name, answers); // Debugging
-        return { name, answers };
+        return { name,exam, answers };
       });
 
       this.jsonOutput = questions;
@@ -91,14 +88,23 @@ export default {
       })
     }
   },
+  created() {
+    this.exam_id = this.$route.params.exam_id;
+  },
 };
+
 </script>
 
 <style scoped>
-.container{
-  display: flex;
+.main-area{
+  display: flex !important;
   align-items: start;
+  flex-direction: row;
   gap: 15px;
+  width: 100% !important;
+  .title{
+    font-size: 20px;
+  }
   .right {
     width: 50%;
     display: flex;
@@ -125,9 +131,7 @@ export default {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    &::-webkit-scrollbar-thumb{
-      display: none;
-    }
+
     .question{
       margin-top: 10px;
       margin-bottom: 7px;
