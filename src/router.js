@@ -101,6 +101,12 @@ const router = new VueRouter({
           path: "test-list/:exam_id",
           component: () => import("./views/tests/exam/test-list.vue"),
           name: "test-list",
+          props:true
+        },{
+          path: "test-edit/:test_id/:next_id",
+          component: () => import("./views/tests/exam/test-edit.vue"),
+          name: "test-edit",
+          props:true
         },
         {
           path: "test-add/:exam_id",

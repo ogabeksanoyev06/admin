@@ -14,35 +14,46 @@
       <div class="list-item-header">Faol</div>
     </div>
     <div class="list-item" v-for="(item, index) in items" :key="item.id">
+      <router-link :to="{ name: 'test-edit', params: {test_id: item.id,next_id:exam_id } }">
       <div class="first">
       <div class="item-index">{{ index + 1 }}.</div>
-      <div class="item-name">{{ item.name }}</div>
+      <div v-html="item.name" class="item-name"></div>
       </div>
-        <div
-            class="custom-control custom-switch custom-control-inline"
-        >
-          <input type="checkbox" v-model="items.is_active" class="custom-control-input" />
-          <label class="custom-control-label"></label>
-        </div>
+      </router-link>
+      <el-switch
+          :key="item.id"
+          v-model="item.is_active"
+          active-color="#13ce66"
+          @change="onChangeSwitch(item, $event)"
+          inactive-color="#ff4949">
+      </el-switch>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+
   data() {
     return {
       items: [],
       exam_id:''
     };
   },
-  methods:{
-    getExams(){
-      axios.get(`https://api.fastlms.uz/api/test/${this.exam_id}/list`).then((res)=>{
+  methods: {
+    getExams() {
+      axios.get(`https://api.fastlms.uz/api/test/${this.exam_id}/list`).then((res) => {
         console.log(res)
-        this.items=res.data
+        this.items = res.data
       })
-    }
+    },
+    onChangeSwitch(newValue) {
+      axios.patch(`https://api.fastlms.uz/api/test/${newValue.id}/update`, {
+       is_active:newValue.is_active
+      }).then((res) => {
+        console.log(res)
+      })
+    },
   },
   mounted() {
     this.getExams()
@@ -78,6 +89,7 @@ export default {
 
 .list-item {
   .first{
+    color: black;
     display: flex;
   }
   display: flex;

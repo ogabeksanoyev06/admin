@@ -7,7 +7,7 @@
         style="gap: 10px"
       >
         <router-link :to="{ name: 'test-list', params: { examId: this.exam_id } }">
-        <button class="btn btn-success">Savollar (0)</button>
+        <button class="btn btn-success">Savollar ({{this.question_count}})</button>
         </router-link>
         <button class="btn btn-outline-info" @click="addGroup">
           <i class="fa fa-plus"></i>
@@ -552,12 +552,7 @@
                   <thead>
                     <tr>
                       <th>
-                        <div
-                          class="custom-control custom-switch custom-control-inline"
-                        >
-                          <input type="checkbox" class="custom-control-input" />
-                          <label class="custom-control-label"></label>
-                        </div>
+
                       </th>
                       <th>Talabalar</th>
                       <th>Urunishlar</th>
@@ -573,15 +568,13 @@
                         :key="index"
                       >
                         <td>
-                          <div
-                            class="custom-control custom-switch custom-control-inline"
-                          >
-                            <input
-                              type="checkbox"
-                              class="custom-control-input"
-                            />
-                            <label class="custom-control-label"></label>
-                          </div>
+                          <el-switch
+                              :key="item.id"
+                              v-model="item.is_active"
+                              active-color="#13ce66"
+                              @change="onChangeSwitch(item, $event)"
+                              inactive-color="#ff4949">
+                          </el-switch>
                         </td>
                         <td>{{ item.full_name }}</td>
                         <td></td>
@@ -669,6 +662,7 @@ export default {
       addedGroups: [],
       allSelected: false,
       studentsGroupList: [],
+      question_count:0
     };
   },
   methods: {
@@ -762,6 +756,7 @@ export default {
       this.$api
         .get(`exam-detail/${this.exam_id}`)
         .then((res) => {
+          console.log(res)
           if (res) {
             this.addedGroups = res.group_list;
             this.eexam_detail.name = res.name;
@@ -777,6 +772,7 @@ export default {
             this.eexam_detail.attempts = res.attempts;
             this.eexam_detail.question_count = res.total_count;
             this.eexam_detail.subject = res.subject.id;
+            this.question_count=res.question_count
             this.eexam_detail.random = res.is_random ? "Ha" : "Yo'q";
             this.educationYearName =
               res.education_year.code + "(" + res.education_year.name + ")";
