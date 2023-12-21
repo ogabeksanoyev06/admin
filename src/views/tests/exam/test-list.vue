@@ -15,15 +15,18 @@
     </div>
     <div class="list-item" v-for="(item, index) in items" :key="item.id">
       <div class="first">
-      <div class="item-index">{{ index + 1 }}.</div>
-      <div class="item-name">{{ item.name }}</div>
+        <div class="item-index">{{ index + 1 }}.</div>
+        <div class="item-name">{{ item.name }}</div>
       </div>
-        <div
-            class="custom-control custom-switch custom-control-inline"
-        >
-          <input type="checkbox" v-model="items.is_active" class="custom-control-input" />
-          <label class="custom-control-label"></label>
-        </div>
+      <div class="custom-control custom-switch custom-control-inline">
+        <input
+          type="checkbox"
+          :checked="isActive ? 'checked' : ''"
+          class="custom-control-input"
+          @change="toggleIsActive(item.is_active)"
+        />
+        <label class="custom-control-label"></label>
+      </div>
     </div>
   </div>
 </template>
@@ -33,38 +36,44 @@ export default {
   data() {
     return {
       items: [],
-      exam_id:''
+      exam_id: "",
+      isActive: null,
     };
   },
-  methods:{
-    getExams(){
-      axios.get(`https://api.fastlms.uz/api/test/${this.exam_id}/list`).then((res)=>{
-        console.log(res)
-        this.items=res.data
-      })
-    }
+  methods: {
+    getExams() {
+      axios
+        .get(`https://api.fastlms.uz/api/test/${this.exam_id}/list`)
+        .then((res) => {
+          console.log(res);
+          this.items = res.data;
+        });
+    },
+    toggleIsActive(isActive) {
+      this.isActive = !isActive;
+    },
   },
   mounted() {
-    this.getExams()
+    this.getExams();
   },
   created() {
-       this.exam_id = this.$route.params.exam_id;
-   },
+    this.exam_id = this.$route.params.exam_id;
+  },
 };
 </script>
 
 <style scoped>
-.main-area{
+.main-area {
   padding: 5px;
   box-sizing: border-box;
 }
-.list-item-header{
+.list-item-header {
   margin-right: 20px;
 }
 .container {
   font-family: Arial, sans-serif;
 }
-.heading{
+.heading {
   display: flex;
   gap: 15px;
 }
@@ -77,7 +86,7 @@ export default {
 }
 
 .list-item {
-  .first{
+  .first {
     display: flex;
   }
   display: flex;
@@ -93,8 +102,7 @@ export default {
   margin-right: 10px;
 }
 
-
-.button-see{
+.button-see {
   width: fit-content;
   margin-top: 5px;
   margin-bottom: 5px;
