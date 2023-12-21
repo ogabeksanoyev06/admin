@@ -9,7 +9,7 @@
         <router-link :to="{ name: 'test-list', params: { examId: this.exam_id } }">
         <button class="btn btn-success">Savollar ({{this.question_count}})</button>
         </router-link>
-        <button class="btn btn-outline-info" @click="addGroup">
+        <button v-show="!real_exam.exam_status" class="btn btn-outline-info" @click="addGroup">
           <i class="fa fa-plus"></i>
           Guruh qo'shish
         </button>
@@ -557,8 +557,9 @@
                       <th>Talabalar</th>
                       <th>Urunishlar</th>
                       <th>To'g'ri</th>
-                      <th>Foiz</th>
+                      <th>Boshlandi</th>
                       <th>Tugadi</th>
+                      <th>Foiz</th>
                     </tr>
                   </thead>
                   <transition name="fade" :duration="2000">
@@ -576,11 +577,12 @@
                               inactive-color="#ff4949">
                           </el-switch>
                         </td>
-                        <td>{{ item.full_name }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{ item.student.full_name }}</td>
+                        <td>{{item.result.attempts}}</td>
+                        <td>{{item.result.correct_answer}}</td>
+                        <td>{{item.result.begin_time}}</td>
+                        <td>{{item.result.end_time}}</td>
+                        <td>{{item.result.percentage}}</td>
                       </tr>
                     </tbody>
                   </transition>
@@ -662,11 +664,20 @@ export default {
       addedGroups: [],
       allSelected: false,
       studentsGroupList: [],
-      question_count:0
+      question_count:0,
+      real_exam:{}
     };
   },
   methods: {
     ...mapActions(["getGroup"]),
+    onChangeSwitch(item){
+      console.log(item)
+     this.$api.patch(`exam/${this.exam_id}/student-status/${item.student.id}/`,{
+       is_active:item.is_active
+     }).then((res)=>{
+       console.log(res)
+     })
+    },
     getEducationLang() {
       this.$api
         .get("educationlang/?limit=20")
@@ -692,7 +703,7 @@ export default {
     getStudentsGroup(id) {
       this.loading = true;
       this.$api
-        .get(`student-group/${id}/`)
+        .get(`result/${this.exam_id}/group/${id}`)
         .then((res) => {
           this.studentsGroupList = res;
         })
@@ -712,7 +723,9 @@ export default {
         .then((res) => {
           this.notificationMessage(res.message, "success");
           this.getExamDetail();
-        });
+        }).catch((err)=>{
+        this.notificationMessage(err.response.data.message, "error");
+      });
     },
     getGroupListFilter() {
       this.$api
@@ -720,6 +733,7 @@ export default {
           `groups-list/${this.educationLangId}/get/${this.eexam_detail.curriculum}/`
         )
         .then((res) => {
+          console.log("group",res)
           this.groupList = res;
         })
         .catch((err) => {
@@ -758,8 +772,10 @@ export default {
         .then((res) => {
           console.log(res)
           if (res) {
+            this.real_exam = res;
             this.addedGroups = res.group_list;
             this.eexam_detail.name = res.name;
+            this.eexam_detail.active=res.exam_status;
             this.eexam_detail.comment = res.comment;
             this.eexam_detail.curriculum = res.curriculum.id;
             this.eexam_detail.education_year = res.education_year.id;
@@ -862,6 +878,7 @@ export default {
         .then((res) => {
           if (res.status) {
             this.notificationMessage(res.message, "success");
+            this.getExamDetail()
           }
         })
         .catch((err) => {
