@@ -16,9 +16,11 @@
     <div class="list-item" v-for="(item, index) in items" :key="item.id">
       <router-link :to="{ name: 'test-edit', params: {test_id: item.id,next_id:exam_id } }">
       <div class="first">
+      
       <div class="item-index">{{ index + 1 }}.</div>
       <div class="item-name">{{ item.name }}</div>
       </div>
+      </router-link>
         <div
             class="custom-control custom-switch custom-control-inline"
         >
@@ -80,15 +82,13 @@ export default {
 }
 
 .list-item {
-  .first{
-    display: flex;
-  }
   display: flex;
   align-items: center;
   padding: 10px;
   border-bottom: 1px solid #e9ecef;
   justify-content: space-between;
 }
+
 
 .item-index,
 .item-name,
