@@ -14,25 +14,24 @@
       <div class="list-item-header">Faol</div>
     </div>
     <div class="list-item" v-for="(item, index) in items" :key="item.id">
+      <router-link :to="{ name: 'test-edit', params: {test_id: item.id,next_id:exam_id } }">
       <div class="first">
-        <div class="item-index">{{ index + 1 }}.</div>
-        <div class="item-name">{{ item.name }}</div>
+      <div class="item-index">{{ index + 1 }}.</div>
+      <div class="item-name">{{ item.name }}</div>
       </div>
-      <div class="custom-control custom-switch custom-control-inline">
-        <input
-          type="checkbox"
-          :checked="isActive ? 'checked' : ''"
-          class="custom-control-input"
-          @change="toggleIsActive(item.is_active)"
-        />
-        <label class="custom-control-label"></label>
-      </div>
+        <div
+            class="custom-control custom-switch custom-control-inline"
+        >
+          <input type="checkbox" v-model="items.is_active" class="custom-control-input" />
+          <label class="custom-control-label"></label>
+        </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+
   data() {
     return {
       items: [],
@@ -40,18 +39,13 @@ export default {
       isActive: null,
     };
   },
-  methods: {
-    getExams() {
-      axios
-        .get(`https://api.fastlms.uz/api/test/${this.exam_id}/list`)
-        .then((res) => {
-          console.log(res);
-          this.items = res.data;
-        });
-    },
-    toggleIsActive(isActive) {
-      this.isActive = !isActive;
-    },
+  methods:{
+    getExams(){
+      axios.get(`https://api.fastlms.uz/api/test/${this.exam_id}/list`).then((res)=>{
+        console.log(res)
+        this.items=res.data
+      })
+    }
   },
   mounted() {
     this.getExams();
@@ -86,7 +80,7 @@ export default {
 }
 
 .list-item {
-  .first {
+  .first{
     display: flex;
   }
   display: flex;
