@@ -52,7 +52,7 @@ export default {
     alphabet(index) {
       return String.fromCharCode(97 + index); // 97 is the ASCII code for 'a'
     },
-    convertToJSON() {
+  convertToJSON() {
       let trimmedInput = this.inputText.trim();
       if (trimmedInput.startsWith("++++")) {
         trimmedInput = trimmedInput.substring(4);
@@ -61,26 +61,27 @@ export default {
         trimmedInput = trimmedInput.substring(0, trimmedInput.length - 4);
       }
       const blocks = trimmedInput.split("++++");
-      console.log("Blocks:", blocks); // Debugging
 
       const questions = blocks.map((block) => {
         const parts = block.split("====");
-        console.log("Parts:", parts); // Debugging
-
         const name = parts[0].trim();
-        const exam= this.exam_id
+        const exam = this.exam_id;
         const answers = parts.slice(1).map((answer) => {
-          const isTrue = answer.trim().startsWith("#");
-          const name = answer.trim().replace(/^#/, "");
-          return { name, isTrue };
-        });
+          const trimmedAnswer = answer.trim();
+          if (trimmedAnswer !== "") {  // Check if the answer name is not blank
+            const isTrue = trimmedAnswer.startsWith("#");
+            const name = trimmedAnswer.replace(/^#/, "");
+            return { name, isTrue };
+          }
+        }).filter(Boolean); // Remove undefined (blank) answers from the list
 
         console.log("Question and Answers:", name, answers); // Debugging
-        return { name,exam, answers };
+        return { name, exam, answers };
       });
 
       this.jsonOutput = questions;
     },
+
 
     createTest(){
       axios.post('https://api.fastlms.uz/api/test/create',this.jsonOutput).then((res)=>{

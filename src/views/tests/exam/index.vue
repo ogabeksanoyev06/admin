@@ -83,18 +83,23 @@
                           >{{ tariff.semester.name }}
                         </span>
                       </td>
-                      <td>SBHA-01, SBHA-02</td>
-                      <td>322 / 25</td>
-                      <td>27.11.2023 14:30</td>
-                      <td>27.11.2023 15:50</td>
-                      <td>50 daqiqa</td>
                       <td>
-                        <div
-                          class="custom-control custom-switch custom-control-inline"
-                        >
-                          <input class="custom-control-input" type="checkbox" />
-                          <label class="custom-control-label"></label>
-                        </div>
+                        <p v-for="item in tariff.group_list">
+                          {{ item.name }}
+                        </p>
+                      </td>
+                      <td>{{ tariff.question_count }}/{{ tariff.total_count }}</td>
+                      <td>{{ $moment(tariff.begin_time).format("YYYY-MM-DD HH:mm:ss") }}</td>
+                      <td>{{ $moment(tariff.end_time).format("YYYY-MM-DD HH:mm:ss") }}</td>
+                      <td>{{ tariff.exam_time }} daqiqa</td>
+                      <td>
+                        <el-switch
+            :key="tariff.id"
+            v-model="tariff.exam_status"
+            active-color="#13ce66"
+            @change="onChangeSwitch(tariff, $event)"
+            inactive-color="#ff4949">
+        </el-switch>
                       </td>
                     </tr>
                   </tbody>
@@ -157,6 +162,12 @@ export default {
         console.log("aaa", res);
         this.exams = res.data.results;
       });
+    },
+    onChangeSwitch(item) {
+      this.$http.patch(`exam/${item.id}/update`,{exam_status:item.exam_status}).then((res) => {
+        console.log(res)
+        this.getExams()
+      })
     },
     goToLink(id) {
       this.$router.push({
