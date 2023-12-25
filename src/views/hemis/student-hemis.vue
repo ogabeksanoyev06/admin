@@ -42,7 +42,7 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>to'lov shakli</p>
+            <p>To'lov shakli</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -103,6 +103,23 @@
         </div>
       </div>
     </div>
+<!--    <div class="col-12 col-sm-6 col-md-4 col-lg-3">-->
+<!--      <div class="card mb-2">-->
+<!--        <div-->
+<!--          class="card-content d-flex align-items-center"-->
+<!--          style="min-height: 120px"-->
+<!--        >-->
+<!--          <div class="card-body">-->
+<!--            <p>Ijtimoiy xolat</p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="card-footer p-1">-->
+<!--          <button class="btn btn-success w-100" @click="getSocialCategory">-->
+<!--            Yuklash-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
       <div class="card mb-2">
         <div
@@ -110,24 +127,7 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>turar joy</p>
-          </div>
-        </div>
-        <div class="card-footer p-1">
-          <button class="btn btn-success w-100" @click="getSocialCategory">
-            Yuklash
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-      <div class="card mb-2">
-        <div
-          class="card-content d-flex align-items-center"
-          style="min-height: 120px"
-        >
-          <div class="card-body">
-            <p>Talabalar</p>
+            <p>Turar joy</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -144,7 +144,7 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Jinsni yuklash</p>
+            <p>Talabalar</p>
           </div>
         </div>
         <div class="card-footer p-1">
