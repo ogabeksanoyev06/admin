@@ -33,8 +33,7 @@ Question 2"
         </div>
 
       </div>
-      <button class="button-see btn btn-success waves-effect waves-light" @click="createTest">saqlash</button>
-
+      <button class="button-see bottom-button btn btn-success waves-effect waves-light" @click="createTest">Saqlash</button>
     </div>
   </div>
 </template>
@@ -86,6 +85,10 @@ export default {
     createTest(){
       axios.post('https://api.fastlms.uz/api/test/create',this.jsonOutput).then((res)=>{
         console.log(res)
+        this.notificationMessage(res.data.message, "success");
+      }).catch((err)=>{
+        console.log(err)
+        this.notificationMessage(err.message, "error");
       })
     }
   },
@@ -110,6 +113,8 @@ export default {
     width: 50%;
     display: flex;
     flex-direction: column;
+    position: relative !important;
+    height: 106vh;
   };
   .left {
     display: flex;
@@ -128,7 +133,7 @@ export default {
   }
   .inner{
     width: 100%;
-    max-height: 100vh;
+    max-height: 98vh;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -153,5 +158,11 @@ export default {
   width: fit-content;
   margin-top: 5px;
   margin-bottom: 5px;
+
+}
+.bottom-button{
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
 }
 </style>

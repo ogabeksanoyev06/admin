@@ -33,7 +33,7 @@
 
 <script>
 export default {
-
+props:['exam_id'],
   data() {
     return {
       items: [],
@@ -42,6 +42,7 @@ export default {
   },
   methods: {
     getExams() {
+      console.log(this.exam_id)
       axios.get(`https://api.fastlms.uz/api/test/${this.exam_id}/list`).then((res) => {
         console.log(res)
         this.items = res.data
@@ -58,9 +59,6 @@ export default {
   mounted() {
     this.getExams()
   },
-  created() {
-       this.exam_id = this.$route.params.exam_id;
-   },
 };
 </script>
 

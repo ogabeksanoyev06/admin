@@ -24,9 +24,15 @@
         </div>
 
       </div>
-      <div @click="save" class="button-see btn btn-success waves-effect waves-light">
-        Saqlash
+      <div class="button-see">
+        <div @click="deleteTest" class="btn btn-danger waves-effect waves-light">
+          O'chirish
+        </div>
+        <div @click="save" class="btn btn-success waves-effect waves-light">
+          Saqlash
+        </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -73,75 +79,16 @@ export default {
         "answers":this.edited_test.answers
       }).then((res)=>{
         this.getTest()
-        console.log(res)
+        this.notificationMessage(res.data.message, "success");
+      }).catch((err)=>{
+        this.notificationMessage(err.data.message, "error");
       })
     },
     imagesUploadHandler(blobInfo, success, failure) {
       let formData = new FormData();
       formData.append('file', blobInfo.blob(), blobInfo.filename());
-
-      axios.post('/your-server-side-image-upload-url', formData)
-          .then(function (response) {
-            success(response.data.imageUrl); // The JSON response must contain the 'imageUrl' key with the image URL
-          })
-          .catch(function (error) {
-            failure('HTTP Error: ' + error.message);
-          });
     },
-    // convertStructuredTextToJson(text) {
-    //   const lines = text.trim().split('====');
-    //   const question = lines.shift();
-    //   const answers = lines.map(line => ({
-    //     isTrue: line.startsWith('#'),
-    //     name: line.replace('#', '')
-    //   }));
-    //
-    //   return {
-    //
-    //       name: question,
-    //       answers: answers,
-    //
-    //   };
-    // },
-    // convertStructuredTextToJson(text) {
-    //   // Split by '====' and filter out empty strings
-    //   const lines = text.trim().split('====').map(line => line.trim()).filter(line => line);
-    //
-    //   const question = lines.shift().replace(/<br\/>/g, '').trim(); // Remove <br/> tags from the question
-    //   const answers = lines.map(line => {
-    //     const cleanedLine = line.replace(/<br\/>/g, '').trim(); // Remove <br/> tags from each answer
-    //     return {
-    //       isTrue: cleanedLine.startsWith('#'),
-    //       name: cleanedLine.replace(/^#/, '').trim() // Remove the '#' and trim whitespace
-    //     };
-    //   });
-    //
-    //   return {
-    //     name: question,
-    //     answers: answers
-    //   };
-    // // },
-    // convertStructuredTextToJson(text) {
-    //   // Remove all <br/>, <br>, and new line characters
-    //   const cleanedText = text.replace(/<br\/?>/gi, '').replace(/\n/g, '');
-    //
-    //   // Split by '====' and then handle each line
-    //   const lines = cleanedText.split('====').map(line => line.trim()).filter(line => line);
-    //
-    //   const question = lines.shift().trim(); // Process the question
-    //   const answers = lines.map(line => {
-    //     const cleanedLine = line.trim(); // Trim each answer
-    //     return {
-    //       isTrue: cleanedLine.startsWith('#'),
-    //       name: cleanedLine.replace(/^#/, '').trim() // Remove the '#' and trim whitespace
-    //     };
-    //   });
-    //
-    //   return {
-    //     name: question,
-    //     answers: answers
-    //   };
-    // },
+
     convertStructuredTextToJson(text) {
       // Remove various HTML formatting and spacing
       const cleanedText = text
@@ -187,8 +134,20 @@ export default {
         this.one_test=res.data.data;
        this.content=this.formattedText(res.data.data)
         this.edited_test = this.convertStructuredTextToJson(this.formattedText(res.data.data))
+      }).catch((err)=>{
+        this.$router.push({ name: 'test-list', params: { exam_id:this.next_idww} })
       })
-    }
+    },
+    deleteTest(){
+      axios.delete(`https://api.fastlms.uz/api/test/${this.test_id}/delete`).then((res)=>{
+        console.log(res)
+        this.$router.push({ name: 'test-list', params: { exam_id: this.next_id} })
+        console.log(this.next_id)
+      }).catch((err)=>{
+        this.notificationMessage(err.response.data.message, "error");
+        console.log(err)
+      })
+    },
   },
   mounted() {
     this.getTest()
@@ -212,10 +171,14 @@ export default {
 }
 .right{
   width: 50%;
+  position: relative;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 .inner{
   width: 100%;
-  max-height: 100vh;
+  max-height: 98vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -234,5 +197,14 @@ export default {
   &.true{
     background: greenyellow;
   }
+}
+.button-see{
+  width: 100% !important;
+  bottom: 5px;
+  right: 5px;
+  display: flex;
+  justify-content:flex-end;
+  margin-top: auto;
+  gap: 5px;
 }
 </style>
