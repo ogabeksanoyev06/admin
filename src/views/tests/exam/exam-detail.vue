@@ -6,7 +6,7 @@
         class="card-header d-flex justify-content-start flex-wrap"
         style="gap: 10px"
       >
-        <router-link :to="{ name: 'test-list', params: { examId: this.exam_id } }">
+        <router-link v-show="!real_exam.exam_status" :to="{ name: 'test-list', params: { examId: this.exam_id } }">
         <button class="btn btn-success">Savollar ({{this.question_count}})</button>
         </router-link>
         <button v-show="!real_exam.exam_status" class="btn btn-outline-info" @click="addGroup">
