@@ -13,7 +13,9 @@
           <i class="fa fa-plus"></i>
           Guruh qo'shish
         </button>
-        <button class="btn btn-outline-info">Natija (0)</button>
+        <router-link :to="{ name: 'test-result', params: { examId: this.exam_id } }">
+        <button class="btn btn-outline-info">Natija ({{this.real_exam.result_count}})</button>
+        </router-link>
       </div>
       <div class="card-content">
         <div class="card-body">
@@ -808,8 +810,7 @@ export default {
     await  this.$api
         .get(`exam-detail/${this.exam_id}`)
         .then((res) => {
-          console.log(res.begin_time)
-          console.log(res.end_time)
+          console.log(res)
           if (res) {
             this.real_exam = res;
             this.addedGroups = res.group_list;

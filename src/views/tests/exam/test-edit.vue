@@ -135,7 +135,7 @@ export default {
        this.content=this.formattedText(res.data.data)
         this.edited_test = this.convertStructuredTextToJson(this.formattedText(res.data.data))
       }).catch((err)=>{
-        this.$router.push({ name: 'test-list', params: { exam_id:this.next_idww} })
+        this.$router.push({ name: 'test-list', params: { exam_id:this.next_id} })
       })
     },
     deleteTest(){
