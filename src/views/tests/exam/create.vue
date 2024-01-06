@@ -196,38 +196,37 @@
                         </div>
                       </div>
                     </div>
-                    <!-- <div class="row">
-                      <div class="col-md-6">
+
+
+                     <div class="row">
+                      <div class="col-md-12">
                         <div class="form-group">
                           <label>
-                            Boshlanish vaqti<span class="text-danger">*</span>
+                            Imtixon vaqtlari<span class="text-danger">*</span>
                           </label>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>
-                            Tugash vaqti <span class="text-danger">*</span>
-                          </label>
-                          <ValidationProvider
-                            name="Tugash vaqti"
-                            rules="required"
-                            v-slot="{ errors }"
+                          <el-date-picker
+                              style="width: 100%"
+                              v-model="timeExam"
+                              type="datetimerange"
+                              start-placeholder="Start Date"
+                              end-placeholder="End Date"
+                              :default-time="['12:00:00', '12:00:00']"
+                              :picker-options="pickerOptions"
                           >
-                            <datepicker
-                              placeholder="YYYY-MM-DD H:M"
-                              v-model="eexam.finish_at"
-                              input-class="form-control"
-                            />
-                            <span
-                              class="text-danger"
-                              v-if="errors.length > 0"
-                              >{{ errors[0] }}</span
-                            >
-                          </ValidationProvider>
+                          </el-date-picker>
                         </div>
                       </div>
-                    </div> -->
+                    </div>
+
+
+
+
+
+
+
+
+
+
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
@@ -414,7 +413,15 @@ export default {
       errorMessage: "",
       successMessage: "",
       loading: false,
+      timeExam:'',
       examTypeList: [],
+      pickerOptions: {
+        disabledDate(time) {
+          const todayStart = new Date();
+          todayStart.setHours(0, 0, 0, 0);
+          return time.getTime() < todayStart.getTime();
+        },
+      },
       examActiveList: [
         {
           id: 0,
@@ -460,9 +467,9 @@ export default {
         education_year: this.eexam.education_year,
         semester: this.eexam.semester,
         exam_type: this.eexam.exam_type,
-        exam_status: true,
-        begin_time: "2023-12-19 16:30",
-        end_time: "2023-12-20 16:50",
+        exam_status: this.eexam.active,
+        begin_time:this.formatDateString(this.timeExam[0]) ,
+        end_time: this.formatDateString(this.timeExam[1]),
         exam_time: parseInt(this.eexam.duration),
         max_score: parseInt(this.eexam.max_ball),
         attempts: parseInt(this.eexam.attempts),
@@ -487,6 +494,16 @@ export default {
         .finally(() => {
           this.loaded = true;
         });
+    },
+    formatDateString(dateString) {
+      let date = new Date(dateString);
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+      month = month < 10 ? '0' + month : month;
+      day = day < 10 ? '0' + day : day;
+      let time = date.toTimeString().split(' ')[0];
+      return `${year}-${month}-${day} ${time}`;
     },
     getExamType() {
       this.$api

@@ -6,14 +6,21 @@
         class="card-header d-flex justify-content-start flex-wrap"
         style="gap: 10px"
       >
+<<<<<<< HEAD
         <router-link :to="{ name: 'test-list', params: { examId: this.exam_id } }">
         <button class="btn btn-success">Savollar (0)</button>
+=======
+        <router-link v-show="!real_exam.exam_status" :to="{ name: 'test-list', params: { examId: this.exam_id } }">
+        <button class="btn btn-success">Savollar ({{this.question_count}})</button>
+>>>>>>> 76158a8f0477b3cea4bf4a5fbc9e081b0eb9139b
         </router-link>
         <button v-show="!real_exam.exam_status" class="btn btn-outline-info" @click="addGroup">
           <i class="fa fa-plus"></i>
           Guruh qo'shish
         </button>
-        <button class="btn btn-outline-info">Natija (0)</button>
+        <router-link :to="{ name: 'test-result', params: { examId: this.exam_id } }">
+        <button class="btn btn-outline-info">Natija ({{this.real_exam.result_count}})</button>
+        </router-link>
       </div>
       <div class="card-content">
         <div class="card-body">
@@ -212,6 +219,24 @@
                       </div>
                     </div>
                     <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>
+                            Imtixon vaqtlari<span class="text-danger">*</span>
+                          </label>
+                          <el-date-picker
+                              style="width: 100%"
+                              v-model="timeExam"
+                              type="datetimerange"
+                              start-placeholder="Start Date"
+                              end-placeholder="End Date"
+                              :picker-options="pickerOptions"
+                          >
+                          </el-date-picker>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
                           <label>
@@ -363,6 +388,9 @@
                 class="card-footer d-flex justify-content-start justify-content-sm-end flex-wrap"
                 style="gap: 10px"
               >
+                <button type="button" @click="deleteExam" class="btn btn-danger w-sm-auto">
+                  O'chirish
+                </button>
                 <button type="submit" class="btn btn-success w-sm-auto">
                   O'zgartirish
                 </button>
@@ -425,7 +453,7 @@
           </div>
         </div>
       </div>
-      <Modal :modal="modal" @modal-closed="modal = false" v-if="modalGroup">
+      <Modal :modal="modalGroupSelect"  @modal-closed="closeGroupModal">
         <div class="card">
           <div class="card-header flex-column align-items-start">
             <h3 class="mb-1">Guruh tanlash</h3>
@@ -538,8 +566,7 @@
       </Modal>
       <Modal
         :modal="studentModal"
-        @modal-closed="studentModal = false"
-        v-if="!modalGroup"
+        @modal-closed="closeStudentModal"
       >
         <div class="card">
           <div class="card-header">
@@ -602,6 +629,7 @@ import { required } from "vee-validate/dist/rules";
 import Loading from "../../../components/Loading.vue";
 import Modal from "../../../components/Modal.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
+import Da from "vue2-datepicker/locale/es/da";
 extend("required", {
   ...required,
   message: "{_field_} bo'sh bo'lishi mumkin emas",
@@ -619,10 +647,18 @@ export default {
     return {
       errorMessage: "",
       loading: false,
-      modal: false,
+      modalGroupSelect: false,
       studentModal: false,
       modalGroup: false,
       exam_id: null,
+      timeExam: [null,null],
+      pickerOptions: {
+        disabledDate(time) {
+          const todayStart = new Date();
+          todayStart.setHours(0, 0, 0, 0);
+          return time.getTime() < todayStart.getTime();
+        },
+      },
       curriculum: [],
       subjects: [],
       examTypeList: [],
@@ -648,8 +684,8 @@ export default {
         semester: "",
         exam_type: "",
         active: false,
-        start_at: "2023-12-1T09:17:55.833Z",
-        finish_at: "2023-12-1T09:17:55.833Z",
+        start_at: '',
+        finish_at:'' ,
         duration: null,
         max_ball: null,
         attempts: null,
@@ -670,6 +706,7 @@ export default {
   },
   methods: {
     ...mapActions(["getGroup"]),
+
     onChangeSwitch(item){
       console.log(item)
      this.$api.patch(`exam/${this.exam_id}/student-status/${item.student.id}/`,{
@@ -677,6 +714,13 @@ export default {
      }).then((res)=>{
        console.log(res)
      })
+    },
+    deleteExam(){
+      this.$api.delete(`exam/${this.exam_id}/delete`).then(()=>{
+        this.$router.push({name:'exam-index'})
+      }).catch((err)=>{
+        this.notificationMessage(err.response.data.message, "error");
+      })
     },
     getEducationLang() {
       this.$api
@@ -749,6 +793,7 @@ export default {
         .patch(`exam/${this.exam_id}/update-groups`, payload)
         .then((res) => {
           this.notificationMessage(res.message, "success");
+
         })
         .catch((err) => {
           this.notificationMessage(err.response.data.message, "error");
@@ -761,13 +806,13 @@ export default {
         this.group_ids = [];
       }
     },
-    getExamDetail() {
+   async getExamDetail() {
       if (!this.exam_id) {
         this.notificationMessage("exam_id olishda xatolik bo'ldi", "error");
         return;
       }
       this.loading = true;
-      this.$api
+    await  this.$api
         .get(`exam-detail/${this.exam_id}`)
         .then((res) => {
           console.log(res)
@@ -781,8 +826,8 @@ export default {
             this.eexam_detail.education_year = res.education_year.id;
             this.eexam_detail.semester = res.semester.id;
             this.eexam_detail.exam_type = res.exam_type.id;
-            this.eexam_detail.start_at = res.end_time;
-            this.eexam_detail.finish_at = res.begin_time;
+            this.eexam_detail.start_at = res.begin_time;
+            this.eexam_detail.finish_at = res.end_time;
             this.eexam_detail.duration = res.exam_time;
             this.eexam_detail.max_ball = res.max_score;
             this.eexam_detail.attempts = res.attempts;
@@ -854,6 +899,16 @@ export default {
         .catch((err) => {})
         .finally(() => {});
     },
+    formatDateString(dateString) {
+      let date = new Date(dateString);
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+      month = month < 10 ? '0' + month : month;
+      day = day < 10 ? '0' + day : day;
+      let time = date.toTimeString().split(' ')[0];
+      return `${year}-${month}-${day} ${time}`;
+    },
     updateExamDeatil() {
       this.loaded = false;
       const examData = {
@@ -864,8 +919,8 @@ export default {
         semester: this.eexam_detail.semester,
         exam_type: this.eexam_detail.exam_type,
         exam_status: this.eexam_detail.active,
-        begin_time: this.eexam_detail.begin_time,
-        end_time: this.eexam_detail.end_time,
+        begin_time: this.formatDateString(this.eexam_detail.start_at),
+        end_time: this.formatDateString(this.eexam_detail.finish_at),
         exam_time: parseInt(this.eexam_detail.duration),
         max_score: parseInt(this.eexam_detail.max_ball),
         attempts: parseInt(this.eexam_detail.attempts),
@@ -889,14 +944,21 @@ export default {
         });
     },
     addGroup() {
-      this.modal = true;
-      this.modalGroup = true;
+      this.modalGroupSelect= true
+    },
+    closeGroupModal(){
+      this.modalGroupSelect= false
+      this.getExamDetail()
     },
     studentGroupId(id) {
+      this.closeGroupModal()
       this.studentModal = true;
-      this.modalGroup = false;
       this.getStudentsGroup(id);
     },
+    closeStudentModal(){
+      this.studentModal = false;
+
+    }
   },
   computed: {
     ...mapGetters(["group"]),
@@ -910,12 +972,14 @@ export default {
       this.allSelected = newVal.length === this.groupList.length;
     },
   },
-  mounted() {
-    this.getExamDetail();
+ async mounted() {
+  await this.getExamDetail();
     this.getCurriculum();
     this.getExamType();
     this.getEducationLang();
     this.getGroupsList();
+    this.timeExam = [new Date(this.eexam_detail.start_at), new Date(this.eexam_detail.finish_at)];
+
   },
   created() {
     this.exam_id = this.$route.params.exam_id;

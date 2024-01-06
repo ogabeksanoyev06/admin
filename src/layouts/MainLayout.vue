@@ -111,14 +111,14 @@ export default {
               title: "O'quv reja",
               routeName: "curriculum-curriculum",
             },
-            {
-              title: "Semestrlar",
-              routeName: "",
-            },
-            {
-              title: "Fanlar bloklari",
-              routeName: "",
-            },
+            // {
+            //   title: "Semestrlar",
+            //   routeName: "",
+            // },
+            // {
+            //   title: "Fanlar bloklari",
+            //   routeName: "",
+            // },
             {
               title: "Fanga biriktirish",
               routeName: "subject-register",
@@ -149,14 +149,14 @@ export default {
         {
           title: "Testlar",
           children: [
-            {
-              title: "Testlarni qo'shish",
-              routeName: "",
-            },
-            {
-              title: "Testlarni tahrirlash",
-              routeName: "",
-            },
+            // {
+            //   title: "Testlarni qo'shish",
+            //   routeName: "",
+            // },
+            // {
+            //   title: "Testlarni tahrirlash",
+            //   routeName: "",
+            // },
             {
               title: "Imtihonlar ro'yxati",
               routeName: "exam-index",

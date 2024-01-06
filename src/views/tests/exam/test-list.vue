@@ -39,7 +39,11 @@
 
 <script>
 export default {
+<<<<<<< HEAD
   name: "test-list",
+=======
+props:['exam_id'],
+>>>>>>> 76158a8f0477b3cea4bf4a5fbc9e081b0eb9139b
   data() {
     return {
       items: [],
@@ -48,12 +52,20 @@ export default {
   },
   methods: {
     getExams() {
+<<<<<<< HEAD
       axios
         .get(`https://api.fastlms.uz/api/test/${this.exam_id}/list`)
         .then((res) => {
           console.log(res);
           this.items = res.data;
         });
+=======
+      console.log(this.exam_id)
+      axios.get(`https://api.fastlms.uz/api/test/${this.exam_id}/list`).then((res) => {
+        console.log(res)
+        this.items = res.data
+      })
+>>>>>>> 76158a8f0477b3cea4bf4a5fbc9e081b0eb9139b
     },
     onChangeSwitch(newValue) {
       axios
@@ -68,9 +80,12 @@ export default {
   mounted() {
     this.getExams();
   },
+<<<<<<< HEAD
   created() {
     this.exam_id = this.$route.params.exam_id;
   },
+=======
+>>>>>>> 76158a8f0477b3cea4bf4a5fbc9e081b0eb9139b
 };
 </script>
 
