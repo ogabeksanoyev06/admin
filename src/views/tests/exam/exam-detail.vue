@@ -230,6 +230,7 @@
                               type="datetimerange"
                               start-placeholder="Start Date"
                               end-placeholder="End Date"
+                              @change="changeTime"
                               :picker-options="pickerOptions"
                           >
                           </el-date-picker>
@@ -607,8 +608,8 @@
                         <td>{{ item.student.full_name }}</td>
                         <td>{{item.result.attempts}}</td>
                         <td>{{item.result.correct_answer}}</td>
-                        <td>{{item.result.begin_time}}</td>
-                        <td>{{item.result.end_time}}</td>
+                        <td>{{item.result.begin_time?$moment(item.result.begin_time).format("YYYY-MM-DD HH:mm:ss"):''}}</td>
+                        <td>{{item.result.end_time?$moment(item.result.end_time).format("YYYY-MM-DD HH:mm:ss"):''}} </td>
                         <td>{{item.result.percentage}}</td>
                       </tr>
                     </tbody>
@@ -714,6 +715,11 @@ export default {
      }).then((res)=>{
        console.log(res)
      })
+    },
+    changeTime(){
+      this.eexam_detail.start_at = this.formatDateString(this.timeExam[0])
+      this.eexam_detail.finish_at = this.formatDateString(this.timeExam[1])
+      console.log(this.timeExam)
     },
     deleteExam(){
       this.$api.delete(`exam/${this.exam_id}/delete`).then(()=>{

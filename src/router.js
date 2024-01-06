@@ -119,7 +119,7 @@ const router = new VueRouter({
           component: () => import("./views/tests/exam/result.vue"),
           name: "test-result",
         },{
-          path: "test/result/one/:resultId",
+          path: "test/result/one/:student_id/:exam_id",
           component: () => import("./views/tests/exam/result-one.vue"),
           name: "test-result-one",
         },

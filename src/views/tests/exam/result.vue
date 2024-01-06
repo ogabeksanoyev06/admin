@@ -29,9 +29,11 @@
                           v-for="(item, index) in results"
                           :key="index"
                       >
-                        <router-link :to="{ name: 'test-result-one', params: { resultId: item.id   } }">
-                        <th style="color: #0b0b0b">{{ item.student.full_name }}</th>
+
+                        <th style="color: #0b0b0b">    <router-link :to="{ name: 'test-result-one', params: { student_id:item.student.id,exam_id:examId} }">
+                          {{ item.student.full_name }}
                         </router-link>
+                        </th>
                         <td>{{ item.group.name }}</td>
                         <td>
                         {{item.ip_address}}
@@ -40,7 +42,9 @@
                         <td>{{item.correct_answer }}</td>
                         <td>{{item.score }}</td>
                         <td>{{item.percentage }}</td>
-                        <td>{{$moment(item.begin_time).format("YYYY-MM-DD HH:ss") }}</td>
+                        <td>{{$moment(item.begin_time).format("YYYY-MM-DD HH:mm:ss") }}</td>
+                        <td>{{ Math.floor(item.time_spent/60)}} min {{item.time_spent-((Math.floor(item.time_spent/60))*60)}} sec</td>
+                        <td>{{$moment(item.end_time).format("YYYY-MM-DD HH:mm:ss") }}</td>
                       </tr>
                       </tbody>
                     </transition>
