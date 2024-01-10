@@ -167,6 +167,8 @@ export default {
       this.$http.patch(`exam/${item.id}/update`,{exam_status:item.exam_status}).then((res) => {
         console.log(res)
         this.getExams()
+      }).catch((err)=>{
+        this.notificationMessage(err.response.data.message, "error");
       })
     },
     goToLink(id) {
