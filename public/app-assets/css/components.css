@@ -992,7 +992,7 @@ body.fixed-footer footer.footer-dark {
 }
 .navigation li {
   position: relative;
-  white-space: nowrap;
+  white-space: wrap;
 }
 .navigation li a {
   display: block;

@@ -58,6 +58,11 @@ const router = new VueRouter({
           name: "curriculum-curriculum",
         },
         {
+          path: "curriculum/subject-content",
+          component: () => import("./views/curriculum/subject-content"),
+          name: "curriculum-subject-content",
+        },
+        {
           path: "transfer/subject-register",
           component: () => import("./views/curriculum/subject-register"),
           name: "subject-register",
@@ -81,6 +86,11 @@ const router = new VueRouter({
           path: "hemis/teacher",
           component: () => import("./views/hemis/teacher-hemis"),
           name: "hemis-teacher",
+        },
+        {
+          path: "hemis/subject",
+          component: () => import("./views/hemis/subject-hemis"),
+          name: "hemis-subject",
         },
         {
           path: "exam/index",
@@ -118,7 +128,8 @@ const router = new VueRouter({
           path: "test/result/:examId",
           component: () => import("./views/tests/exam/result.vue"),
           name: "test-result",
-        },{
+        },
+        {
           path: "test/result/one/:student_id/:exam_id",
           component: () => import("./views/tests/exam/result-one.vue"),
           name: "test-result-one",

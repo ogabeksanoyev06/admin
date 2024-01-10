@@ -41,16 +41,18 @@ Question 2"
           </div>
         </div>
       </div>
-<<<<<<< HEAD
       <button
         class="button-see btn btn-success waves-effect waves-light"
         @click="createTest"
       >
         saqlash
       </button>
-=======
-      <button class="button-see bottom-button btn btn-success waves-effect waves-light" @click="createTest">Saqlash</button>
->>>>>>> 76158a8f0477b3cea4bf4a5fbc9e081b0eb9139b
+      <button
+        class="button-see bottom-button btn btn-success waves-effect waves-light"
+        @click="createTest"
+      >
+        Saqlash
+      </button>
     </div>
   </div>
 </template>
@@ -68,7 +70,7 @@ export default {
     alphabet(index) {
       return String.fromCharCode(97 + index); // 97 is the ASCII code for 'a'
     },
-  convertToJSON() {
+    convertToJSON() {
       let trimmedInput = this.inputText.trim();
       if (trimmedInput.startsWith("++++")) {
         trimmedInput = trimmedInput.substring(4);
@@ -82,14 +84,18 @@ export default {
         const parts = block.split("====");
         const name = parts[0].trim();
         const exam = this.exam_id;
-        const answers = parts.slice(1).map((answer) => {
-          const trimmedAnswer = answer.trim();
-          if (trimmedAnswer !== "") {  // Check if the answer name is not blank
-            const isTrue = trimmedAnswer.startsWith("#");
-            const name = trimmedAnswer.replace(/^#/, "");
-            return { name, isTrue };
-          }
-        }).filter(Boolean); // Remove undefined (blank) answers from the list
+        const answers = parts
+          .slice(1)
+          .map((answer) => {
+            const trimmedAnswer = answer.trim();
+            if (trimmedAnswer !== "") {
+              // Check if the answer name is not blank
+              const isTrue = trimmedAnswer.startsWith("#");
+              const name = trimmedAnswer.replace(/^#/, "");
+              return { name, isTrue };
+            }
+          })
+          .filter(Boolean); // Remove undefined (blank) answers from the list
 
         console.log("Question and Answers:", name, answers); // Debugging
         return { name, exam, answers };
@@ -98,7 +104,6 @@ export default {
       this.jsonOutput = questions;
     },
 
-<<<<<<< HEAD
     createTest() {
       axios
         .post("https://api.fastlms.uz/api/test/create", this.jsonOutput)
@@ -106,18 +111,19 @@ export default {
           console.log(res);
         });
     },
-=======
 
-    createTest(){
-      axios.post('https://api.fastlms.uz/api/test/create',this.jsonOutput).then((res)=>{
-        console.log(res)
-        this.notificationMessage(res.data.message, "success");
-      }).catch((err)=>{
-        console.log(err)
-        this.notificationMessage(err.message, "error");
-      })
-    }
->>>>>>> 76158a8f0477b3cea4bf4a5fbc9e081b0eb9139b
+    createTest() {
+      axios
+        .post("https://api.fastlms.uz/api/test/create", this.jsonOutput)
+        .then((res) => {
+          console.log(res);
+          this.notificationMessage(res.data.message, "success");
+        })
+        .catch((err) => {
+          console.log(err);
+          this.notificationMessage(err.message, "error");
+        });
+    },
   },
   created() {
     this.exam_id = this.$route.params.exam_id;
@@ -125,7 +131,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .main-area {
   display: flex !important;
   align-items: start;
@@ -139,41 +145,38 @@ export default {
     width: 50%;
     display: flex;
     flex-direction: column;
-<<<<<<< HEAD
   }
-=======
-    position: relative !important;
-    height: 106vh;
-  };
->>>>>>> 76158a8f0477b3cea4bf4a5fbc9e081b0eb9139b
-  .left {
-    display: flex;
-    width: 50% !important;
-    flex-direction: column-reverse;
-    align-items: flex-end;
+  position: relative !important;
+  height: 106vh;
+}
+.left {
+  display: flex;
+  width: 50% !important;
+  flex-direction: column-reverse;
+  align-items: flex-end;
 
-    textarea {
-      width: 100%;
-      height: 100vh;
-      resize: none;
-      padding: 5px;
-      box-sizing: border-box;
-    }
-  }
-  .inner {
+  textarea {
     width: 100%;
-    max-height: 98vh;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-
-    .question {
-      margin-top: 10px;
-      margin-bottom: 7px;
-      font-weight: 700;
-    }
+    height: 100vh;
+    resize: none;
+    padding: 5px;
+    box-sizing: border-box;
   }
 }
+.inner {
+  width: 100%;
+  max-height: 98vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  .question {
+    margin-top: 10px;
+    margin-bottom: 7px;
+    font-weight: 700;
+  }
+}
+
 .answer {
   padding-top: 10px;
   margin-bottom: 5px;
@@ -186,9 +189,8 @@ export default {
   width: fit-content;
   margin-top: 5px;
   margin-bottom: 5px;
-
 }
-.bottom-button{
+.bottom-button {
   position: absolute;
   bottom: 5px;
   right: 5px;

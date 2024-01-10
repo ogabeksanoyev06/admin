@@ -71,7 +71,7 @@
                             rules="required"
                             v-slot="{ errors }"
                           >
-                            <select class="form-control col">
+                            <select class="form-control col" disabled>
                               <option value="0">O'quv yilini tanlang</option>
                               <option
                                 v-for="(item, i) in educationYear"
@@ -97,7 +97,7 @@
                             rules="required"
                             v-slot="{ errors }"
                           >
-                            <select class="form-control col">
+                            <select class="form-control col" disabled>
                               <option value="0">Semestr turini tanlang</option>
                               <option
                                 v-for="(facultyItem, i) in facultyList"
@@ -106,22 +106,16 @@
                                 {{ facultyItem.name }}
                               </option>
                             </select>
-                            <span
-                              class="text-danger"
-                              v-if="errors.length > 0"
-                              >{{ errors[0] }}</span
-                            >
+                            <span class="text-danger" v-if="errors.length > 0">
+                              {{ errors[0] }}
+                            </span>
                           </ValidationProvider>
                         </div>
                         <div class="form-group">
                           <div class="d-flex align-items-center">
                             <div class="position-relative has-icon-left">
                               <div class="vs-checkbox-con vs-checkbox-primary">
-                                <input
-                                  :disabled="loading"
-                                  id="isActive"
-                                  type="checkbox"
-                                />
+                                <input id="isActive" type="checkbox" disabled />
                                 <span class="vs-checkbox">
                                   <span class="vs-checkbox--check">
                                     <i class="vs-icon feather icon-check" />
@@ -137,6 +131,7 @@
                             <button
                               type="button"
                               class="btn btn-danger waves-effect waves-light mr-1"
+                              disabled
                             >
                               <span
                                 class="spinner-border spinner-border-sm"
@@ -150,6 +145,7 @@
                             <button
                               type="submit"
                               class="btn btn-success waves-effect waves-light"
+                              disabled
                             >
                               Saqlash
                             </button>

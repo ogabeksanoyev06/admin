@@ -36,9 +36,9 @@
                   v-model="model.oldPassword"
                 />
                 <label for="oldPassword">Eski parol</label>
-                <span class="text-danger" v-if="errors.length > 0">{{
-                  errors[0]
-                }}</span>
+                <span class="text-danger" v-if="errors.length > 0">
+                  {{ errors[0] }}
+                </span>
               </fieldset>
             </ValidationProvider>
             <ValidationObserver>

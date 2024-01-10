@@ -11,16 +11,10 @@
                     <thead>
                       <tr>
                         <th scope="col">Kod</th>
-                        <th scope="col">
-                          Nomi º
-                        </th>
-                        <th scope="col">
-                          Turi
-                        </th>
+                        <th scope="col">Nomi º</th>
+                        <th scope="col">Turi</th>
 
-                        <th scope="col">
-                          Faol
-                        </th>
+                        <th scope="col">Faol</th>
                       </tr>
                     </thead>
                     <transition name="fade" :duration="2000">
@@ -39,7 +33,7 @@
                               class="custom-control custom-switch custom-control-inline"
                             >
                               <input
-                                class="custom-control-input "
+                                class="custom-control-input"
                                 type="checkbox"
                                 v-model="facultyItem.status"
                               />
@@ -52,7 +46,7 @@
                   </table>
                 </div>
               </div>
-              <div class="col-md-4 ">
+              <div class="col-md-4">
                 <div class="position-top">
                   <ValidationObserver v-slot="{ handleSubmit }">
                     <form
@@ -76,6 +70,7 @@
                                 type="text"
                                 class="form-control"
                                 placeholder="Nomi º"
+                                disabled
                               />
                             </div>
                             <span
@@ -101,6 +96,7 @@
                                 type="text"
                                 class="form-control"
                                 placeholder="Kod"
+                                disabled
                               />
                             </div>
                             <span
@@ -120,7 +116,7 @@
                             rules="required"
                             v-slot="{ errors }"
                           >
-                            <select class="form-control col">
+                            <select class="form-control col" disabled>
                               <option value="0">Turini tanlang</option>
                               <option
                                 v-for="(facultyType, i) in facultyType"
@@ -141,6 +137,7 @@
                             <button
                               type="button"
                               class="btn btn-danger waves-effect waves-light mr-1"
+                              disabled
                             >
                               <span
                                 class="spinner-border spinner-border-sm"
@@ -154,6 +151,7 @@
                             <button
                               type="submit"
                               class="btn btn-success waves-effect waves-light"
+                              disabled
                             >
                               Saqlash
                             </button>

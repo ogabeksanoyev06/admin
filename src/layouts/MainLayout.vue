@@ -111,17 +111,13 @@ export default {
               title: "O'quv reja",
               routeName: "curriculum-curriculum",
             },
-            // {
-            //   title: "Semestrlar",
-            //   routeName: "",
-            // },
-            // {
-            //   title: "Fanlar bloklari",
-            //   routeName: "",
-            // },
             {
               title: "Fanga biriktirish",
               routeName: "subject-register",
+            },
+            {
+              title: "Fan generatsiya qilish",
+              routeName: "curriculum-subject-content",
             },
           ],
         },
@@ -143,6 +139,10 @@ export default {
             {
               title: "O'qituvchi ma'lumotlarni yuklash",
               routeName: "hemis-teacher",
+            },
+            {
+              title: "Fanlarni yuklash",
+              routeName: "hemis-subject",
             },
           ],
         },
