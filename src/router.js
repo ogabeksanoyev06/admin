@@ -122,6 +122,11 @@ const router = new VueRouter({
           component: () => import("./views/tests/exam/result-one.vue"),
           name: "test-result-one",
         },
+        {
+          path: "student/list",
+          component: () => import("./views/student/index.vue"),
+          name: "student-list",
+        },
       ],
     },
   ],

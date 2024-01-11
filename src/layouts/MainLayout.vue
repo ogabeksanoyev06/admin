@@ -163,6 +163,23 @@ export default {
             },
           ],
         },
+        {
+          title: "Talabalar",
+          children: [
+            // {
+            //   title: "Testlarni qo'shish",
+            //   routeName: "",
+            // },
+            // {
+            //   title: "Testlarni tahrirlash",
+            //   routeName: "",
+            // },
+            {
+              title: "Talabalar ro'yxati",
+              routeName: "student-list",
+            },
+          ],
+        },
       ],
     };
   },
@@ -205,6 +222,9 @@ export default {
 <style scoped></style>
 
 <style>
+td{
+  font-size: 12px;
+}
 ::-webkit-scrollbar {
   height: 7px;
   width: 7px;
