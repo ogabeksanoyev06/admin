@@ -8,7 +8,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>xodim-status</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">1</h2>
+            </div>
+            <p style="flex: 1">xodim-status</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -25,7 +28,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>O'qituvchilarni yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">2</h2>
+            </div>
+            <p style="flex: 1">O'qituvchilarni yuklash</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -81,4 +87,19 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.card-body {
+  display: flex;
+  gap: 10px;
+}
+
+.num {
+  background-color: #1f9d57;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+</style>

@@ -4,12 +4,12 @@
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">OTM ma'lumotlari</h4>
-          <button
+          <!-- <button
             type="button"
             class="btn btn-success waves-effect waves-light"
           >
             Qo'shish
-          </button>
+          </button> -->
         </div>
         <div class="card-content">
           <div class="card-body">

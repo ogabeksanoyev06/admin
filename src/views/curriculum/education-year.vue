@@ -5,7 +5,7 @@
         <div class="card-content">
           <div class="card-body">
             <div class="row">
-              <div class="col-md-8">
+              <div class="col-12">
                 <div class="table-responsive shadow">
                   <table class="table table-hover mb-0">
                     <thead>
@@ -53,7 +53,7 @@
                   </table>
                 </div>
               </div>
-              <div class="col-md-4">
+              <!-- <div class="col-md-4">
                 <div class="position-top">
                   <ValidationObserver v-slot="{ handleSubmit }">
                     <form
@@ -155,7 +155,7 @@
                     </form>
                   </ValidationObserver>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
           <div

@@ -8,7 +8,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Jinsni yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">1</h2>
+            </div>
+            <p style="flex: 1">Jinsni yuklash</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -25,7 +28,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Talaba holati</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">2</h2>
+            </div>
+            <p style="flex: 1">Talaba holati</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -42,7 +48,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>To'lov shakli</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">3</h2>
+            </div>
+            <p style="flex: 1">To'lov shakli</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -59,7 +68,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Hudud</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">4</h2>
+            </div>
+            <p style="flex: 1">Hudud</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -76,7 +88,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Fuqaroligi</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">5</h2>
+            </div>
+            <p style="flex: 1">Fuqaroligi</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -93,7 +108,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Ijtimoiy kategoriya</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">6</h2>
+            </div>
+            <p style="flex: 1">Ijtimoiy kategoriya</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -103,23 +121,23 @@
         </div>
       </div>
     </div>
-<!--    <div class="col-12 col-sm-6 col-md-4 col-lg-3">-->
-<!--      <div class="card mb-2">-->
-<!--        <div-->
-<!--          class="card-content d-flex align-items-center"-->
-<!--          style="min-height: 120px"-->
-<!--        >-->
-<!--          <div class="card-body">-->
-<!--            <p>Ijtimoiy xolat</p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="card-footer p-1">-->
-<!--          <button class="btn btn-success w-100" @click="getSocialCategory">-->
-<!--            Yuklash-->
-<!--          </button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
+    <!--    <div class="col-12 col-sm-6 col-md-4 col-lg-3">-->
+    <!--      <div class="card mb-2">-->
+    <!--        <div-->
+    <!--          class="card-content d-flex align-items-center"-->
+    <!--          style="min-height: 120px"-->
+    <!--        >-->
+    <!--          <div class="card-body">-->
+    <!--            <p>Ijtimoiy xolat</p>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--        <div class="card-footer p-1">-->
+    <!--          <button class="btn btn-success w-100" @click="getSocialCategory">-->
+    <!--            Yuklash-->
+    <!--          </button>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
       <div class="card mb-2">
         <div
@@ -127,7 +145,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Turar joy</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">7</h2>
+            </div>
+            <p style="flex: 1">Turar joy</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -144,7 +165,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Talabalar</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">8</h2>
+            </div>
+            <p style="flex: 1">Talabalar</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -284,4 +308,19 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.card-body {
+  display: flex;
+  gap: 10px;
+}
+
+.num {
+  background-color: #1f9d57;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+</style>

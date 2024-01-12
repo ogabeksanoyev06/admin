@@ -1,7 +1,37 @@
 <template>
   <div>
     <div class="card">
-      <div class="card-header"></div>
+      <div class="card-header">
+        <div class="row w-100">
+          <div class="col-12 col-md-6 col-xl-4">
+            <div class="form-group">
+              <select class="form-control col" v-model="select_value">
+                <option value="0">O'quv rejani tanlang</option>
+                <option
+                  v-for="(item, i) in curriculum"
+                  :key="i"
+                  :value="item.id"
+                >
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-xl-4">
+            <div class="form-group">
+              <div class="position-relative">
+                <input
+                  id="search"
+                  type="text"
+                  class="form-control"
+                  placeholder="Nomi bo'yicha qidirish"
+                  v-model="input_value"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="card-content">
         <div class="card-body">
           <div class="table-responsive">
@@ -132,11 +162,14 @@ export default {
     return {
       loading: false,
       modal: false,
+      curriculum: [],
       contentAll: [],
       teacherAll: [],
       teacherRole: [],
       teacher_id: null,
       content_id: null,
+      select_value: "",
+      input_value: "",
       roletype_id_teacher: null,
       totalSize: 1,
       currentPage: 1,
@@ -150,10 +183,23 @@ export default {
     };
   },
   methods: {
+    getCurriculum() {
+      this.$api
+        .get(`curriculum`)
+        .then((res) => {
+          if (res) {
+            this.curriculum = res.results;
+          }
+        })
+        .catch((err) => {})
+        .finally(() => {});
+    },
     getContentAll() {
       this.loading = false;
       this.$api
-        .get(`getcontent/all/`)
+        .get(
+          `getcontent/all/?name=${this.input_value}&curriculum_id=${this.select_value}`
+        )
         .then((res) => {
           if (!res.error) {
             this.contentAll = res;
@@ -220,8 +266,15 @@ export default {
     currentPage() {
       this.getTeacherAll();
     },
+    select_value() {
+      this.getContentAll();
+    },
+    input_value() {
+      this.getContentAll();
+    },
   },
   mounted() {
+    this.getCurriculum();
     this.getContentAll();
     this.getTeacherAll();
     this.getRoleType();

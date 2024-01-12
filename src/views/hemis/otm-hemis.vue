@@ -8,7 +8,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan shaharlarni yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">1</h2>
+            </div>
+            <p style="flex: 1">Otm uchun yuklangan shaharlarni yuklash</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -25,7 +28,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan Otm turlari yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">2</h2>
+            </div>
+            <p style="flex: 1">Otm uchun yuklangan Otm turlari yuklash</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -42,7 +48,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan Otm shaklini yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">3</h2>
+            </div>
+            <p style="flex: 1">Otm uchun yuklangan Otm shaklini yuklash</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -59,7 +68,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan Otmni yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">4</h2>
+            </div>
+            <p style="flex: 1">Otm uchun yuklangan Otmni yuklash</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -74,7 +86,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan Otm bo`limlarini yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">5</h2>
+            </div>
+            <p style="flex: 1">Otm uchun yuklangan Otm bo`limlarini yuklash</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -91,7 +106,12 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan Otm Fakultet turlarini yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">6</h2>
+            </div>
+            <p style="flex: 1">
+              Otm uchun yuklangan Otm Fakultet turlarini yuklash
+            </p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -108,7 +128,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan Otm Fakultetlarni yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">7</h2>
+            </div>
+            <p style="flex: 1">Otm uchun yuklangan Otm Fakultetlarni yuklash</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -125,7 +148,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">8</h2>
+            </div>
+            <p style="flex: 1">
               Otm uchun yuklangan Otm Fakultetga birktrilgan kafedralar yuklash
             </p>
           </div>
@@ -144,7 +170,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan O'quv tili</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">9</h2>
+            </div>
+            <p style="flex: 1">Otm uchun yuklangan O'quv tili</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -298,4 +327,19 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.card-body {
+  display: flex;
+  gap: 10px;
+}
+
+.num {
+  background-color: #1f9d57;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+</style>

@@ -37,6 +37,12 @@ const router = new VueRouter({
           component: () => import("./views/structure/structure-university"),
           name: "structure-university",
         },
+        // {
+        //   path: "structure/university-update",
+        //   component: () =>
+        //     import("./views/structure/structure-univercity-update"),
+        //   name: "structure-university-update",
+        // },
         {
           path: "structure/faculty",
           component: () => import("./views/structure/structure-faculty"),

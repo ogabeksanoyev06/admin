@@ -8,7 +8,12 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan Yonalishlarni yuklab olish Bakalavr</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">1</h2>
+            </div>
+            <p style="flex: 1">
+              Otm uchun yuklangan Yonalishlarni yuklab olish Bakalavr
+            </p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -25,7 +30,12 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan Yonalishlarni yuklab olish Magistratur</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">2</h2>
+            </div>
+            <p style="flex: 1">
+              Otm uchun yuklangan Yonalishlarni yuklab olish Magistratur
+            </p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -42,7 +52,12 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan Yonalishlarni yuklab olish Ordenatura</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">3</h2>
+            </div>
+            <p style="flex: 1">
+              Otm uchun yuklangan Yonalishlarni yuklab olish Ordenatura
+            </p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -59,7 +74,12 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan Oquv yillar to`plami yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">4</h2>
+            </div>
+            <p style="flex: 1">
+              Otm uchun yuklangan Oquv yillar to`plami yuklash
+            </p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -76,7 +96,12 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan Oquv yil turlari to`plami yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">5</h2>
+            </div>
+            <p style="flex: 1">
+              Otm uchun yuklangan Oquv yil turlari to`plami yuklash
+            </p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -93,7 +118,12 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan Oquv yil format turlari to`plami yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">6</h2>
+            </div>
+            <p style="flex: 1">
+              Otm uchun yuklangan Oquv yil format turlari to`plami yuklash
+            </p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -110,7 +140,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan O'quv rejani yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">7</h2>
+            </div>
+            <p style="flex: 1">Otm uchun yuklangan O'quv rejani yuklash</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -127,7 +160,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">8</h2>
+            </div>
+            <p style="flex: 1">
               Otm uchun yuklangan Oquv reja fakultet va yonalishlarni
               birlashtrish
             </p>
@@ -147,7 +183,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan Semestr kursini turlari</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">9</h2>
+            </div>
+            <p style="flex: 1">Otm uchun yuklangan Semestr kursini turlari</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -164,7 +203,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan Semestr turlari yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">10</h2>
+            </div>
+            <p style="flex: 1">Otm uchun yuklangan Semestr turlari yuklash</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -181,7 +223,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">11</h2>
+            </div>
+            <p style="flex: 1">
               Otm uchun yuklangan Semestrga birktrilgan haftalar harkatini
               yuklavolish
             </p>
@@ -201,7 +246,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan Oquv tili</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">12</h2>
+            </div>
+            <p style="flex: 1">Otm uchun yuklangan Oquv tili</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -218,7 +266,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Otm uchun yuklangan guruhlarni qoshish</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">13</h2>
+            </div>
+            <p style="flex: 1">Otm uchun yuklangan guruhlarni qoshish</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -428,4 +479,19 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.card-body {
+  display: flex;
+  gap: 10px;
+}
+
+.num {
+  background-color: #1f9d57;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+</style>

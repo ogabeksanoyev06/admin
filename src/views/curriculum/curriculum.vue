@@ -5,37 +5,21 @@
         <div class="card-content">
           <div class="card-header">
             <div class="row w-100">
-              <div class="col-12 col-md-6 col-xl-2">
-                <div class="form-group">
-                  <button
-                    disabled
-                    class="btn btn-success"
-                    style="white-space: nowrap"
-                  >
-                    O'quv reja yaratish
-                  </button>
-                </div>
-              </div>
-              <div class="col-12 col-md-6 col-xl-2">
-                <div class="form-group">
-                  <select class="form-control col">
-                    <option value="0">O'quv yilini tanlang</option>
-                    <option v-for="(item, i) in educationYear" :key="i">
-                      {{ item.name }}
-                    </option>
-                  </select>
-                </div>
-              </div>
               <div class="col-12 col-md-6 col-xl-4">
                 <div class="form-group">
-                  <select class="form-control col">
-                    <option value="0">Fakultetni tanlang</option>
-                    <option v-for="(item, i) in facultyList" :key="i">
+                  <select class="form-control col" v-model="select_value">
+                    <option value="">O'quv yilini tanlang</option>
+                    <option
+                      v-for="(item, i) in educationYear"
+                      :key="i"
+                      :value="item.id"
+                    >
                       {{ item.name }}
                     </option>
                   </select>
                 </div>
               </div>
+
               <div class="col-12 col-md-6 col-xl-4">
                 <div class="form-group">
                   <div class="position-relative">
@@ -44,6 +28,7 @@
                       type="text"
                       class="form-control"
                       placeholder="O'quv reja Nomi bo'yicha qidirish"
+                      v-model="input_value"
                     />
                   </div>
                 </div>
@@ -59,9 +44,8 @@
                       <tr>
                         <th scope="col">Nomi º</th>
                         <th scope="col">Fakultet</th>
-                        <th scope="col">Actions</th>
                         <th scope="col">Tasdiq</th>
-                        <th scope="col">Tasdiq</th>
+                        <th scope="col">Faol</th>
                       </tr>
                     </thead>
                     <transition name="fade" :duration="2000">
@@ -80,12 +64,7 @@
                               {{ item.markingsystem.name }}
                             </p>
                           </td>
-                          <td>
-                            <span class="label bg-success">
-                              <i class="fa fa-calendar"></i>
-                              Semestr
-                            </span>
-                          </td>
+
                           <td>
                             <div
                               class="custom-control custom-switch custom-control-inline"
@@ -118,6 +97,16 @@
               </div>
             </div>
           </div>
+          <div
+            class="d-flex justify-content-center"
+            v-if="facultyList.length > 0"
+          >
+            <v-pagination
+              v-model="currentPage"
+              :classes="bootstrapPaginationClasses"
+              :page-count="totalSize"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -125,26 +114,56 @@
 </template>
 
 <script>
+import vPagination from "vue-plain-pagination";
 import { mapActions, mapGetters } from "vuex";
 export default {
+  components: {
+    vPagination,
+  },
   name: "curriculum",
   data() {
     return {
       curriculum: [],
+      input_value: "",
+      select_value: "",
+      totalSize: 1,
+      currentPage: 1,
+      bootstrapPaginationClasses: {
+        ul: "pagination",
+        li: "page-item",
+        liActive: "active",
+        liDisable: "disabled",
+        button: "page-link",
+      },
     };
   },
   computed: {
     ...mapGetters(["facultyList", "educationYear"]),
   },
+  watch: {
+    currentPage() {
+      this.getDepartment();
+    },
+    select_value() {
+      this.getCurriculum();
+    },
+    input_value() {
+      this.getCurriculum();
+    },
+  },
   methods: {
     ...mapActions(["getFacultyList", "getEducationYear"]),
+
     getCurriculum() {
       this.loaded = false;
       this.$api
-        .get(`curriculum`)
+        .get(
+          `curriculum/?name=${this.input_value}&educationyear=${this.select_value}&page_number=${this.currentPage}&limit=10`
+        )
         .then((res) => {
           if (res) {
             this.curriculum = res.results;
+            this.totalSize = res.page_count;
           }
         })
         .catch((err) => {})

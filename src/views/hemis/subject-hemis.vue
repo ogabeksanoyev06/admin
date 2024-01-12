@@ -8,7 +8,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Fanlarni nomini yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">1</h2>
+            </div>
+            <p style="flex: 1">Fanlarni nomini yuklash</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -25,7 +28,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Fanlar blokini yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">2</h2>
+            </div>
+            <p style="flex: 1">Fanlar blokini yuklash</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -42,7 +48,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Fanlar turini yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">3</h2>
+            </div>
+            <p style="flex: 1">Fanlar turini yuklash</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -59,7 +68,12 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Fanga bog'langan imtihon shaklini yuklab olish</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">4</h2>
+            </div>
+            <p style="flex: 1">
+              Fanga bog'langan imtihon shaklini yuklab olish
+            </p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -76,7 +90,10 @@
           style="min-height: 120px"
         >
           <div class="card-body">
-            <p>Fan konteryerini yuklash</p>
+            <div class="num">
+              <h2 style="margin-bottom: 0; color: white">5</h2>
+            </div>
+            <p style="flex: 1">Fan konteryerini yuklash</p>
           </div>
         </div>
         <div class="card-footer p-1">
@@ -164,4 +181,19 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.card-body {
+  display: flex;
+  gap: 10px;
+}
+
+.num {
+  background-color: #1f9d57;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+</style>

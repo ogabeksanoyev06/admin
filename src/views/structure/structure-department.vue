@@ -3,15 +3,34 @@
     <div class="col-12">
       <div class="card m-0">
         <div class="card-content">
+          <div class="card-header">
+            <div class="row w-100">
+              <div class="col-12 col-md-6 col-xl-4">
+                <div class="form-group">
+                  <select class="form-control col" v-model="select_value">
+                    <option value="">Fakultetni tanlang</option>
+                    <option
+                      v-for="(item, i) in facultyList"
+                      :key="i"
+                      :value="item.name"
+                    >
+                      {{ item.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-8">
+              <div class="col-12">
                 <div class="table-responsive shadow">
                   <table class="table table-hover mb-0">
                     <thead>
                       <tr>
                         <th scope="col">Kod</th>
                         <th scope="col">Nomi º</th>
+                        <th scope="col">Fakultet</th>
                         <th scope="col">Turi</th>
 
                         <th scope="col">Faol</th>
@@ -25,6 +44,7 @@
                         >
                           <th>{{ departmentItem.kod }}</th>
                           <td>{{ departmentItem.name }}</td>
+                          <td>{{ departmentItem.faculty.name }}</td>
                           <td>
                             {{ departmentItem.faculty.faculty_type.name }}
                           </td>
@@ -46,7 +66,7 @@
                   </table>
                 </div>
               </div>
-              <div class="col-md-4">
+              <!-- <div class="col-md-4">
                 <div class="position-top">
                   <ValidationObserver v-slot="{ handleSubmit }">
                     <form
@@ -161,7 +181,7 @@
                     </form>
                   </ValidationObserver>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
           <div
@@ -198,6 +218,7 @@ export default {
   data() {
     return {
       department: [],
+      select_value: "",
       totalSize: 1,
       currentPage: 1,
       bootstrapPaginationClasses: {
@@ -215,7 +236,10 @@ export default {
   },
   watch: {
     currentPage() {
-      this.getDepartment(this.currentPage);
+      this.getDepartment();
+    },
+    select_value() {
+      this.searchDepartment();
     },
   },
   methods: {
@@ -224,6 +248,23 @@ export default {
       this.loaded = false;
       this.$api
         .get(`department/?limit=10&page_number=${this.currentPage}`)
+        .then((res) => {
+          if (res) {
+            this.department = res.results;
+            this.totalSize = res.page_count;
+          }
+        })
+        .catch((err) => {})
+        .finally(() => {
+          this.loaded = true;
+        });
+    },
+    searchDepartment() {
+      this.loaded = false;
+      this.$api
+        .get(
+          `department/?faculty=${this.select_value}&page_number=${this.currentPage}&limit=10`
+        )
         .then((res) => {
           if (res) {
             this.department = res.results;

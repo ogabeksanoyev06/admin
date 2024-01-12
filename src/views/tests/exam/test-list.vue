@@ -49,23 +49,19 @@ export default {
   },
   methods: {
     getExams() {
-      axios
-        .get(`https://api.fastlms.uz/api/test/${this.exam_id}/list`)
-        .then((res) => {
-          console.log(res);
-          this.items = res.data;
-        });
+      this.$api.get(`test/${this.exam_id}/list`).then((res) => {
+        console.log(res);
+        this.items = res.data;
+      });
       console.log(this.exam_id);
-      axios
-        .get(`https://api.fastlms.uz/api/test/${this.exam_id}/list`)
-        .then((res) => {
-          console.log(res);
-          this.items = res.data;
-        });
+      this.$api.get(`test/${this.exam_id}/list`).then((res) => {
+        console.log(res);
+        this.items = res.data;
+      });
     },
     onChangeSwitch(newValue) {
-      axios
-        .patch(`https://api.fastlms.uz/api/test/${newValue.id}/update`, {
+      this.$api
+        .patch(`test/${newValue.id}/update`, {
           is_active: newValue.is_active,
         })
         .then((res) => {

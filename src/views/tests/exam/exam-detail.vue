@@ -409,6 +409,20 @@
                 >
                   O'chirish
                 </button>
+                <button
+                  type="button"
+                  @click="cutSeans"
+                  class="btn btn-warning w-sm-auto"
+                >
+                  Seansni o'chirish
+                </button>
+                <button
+                  type="button"
+                  @click="cutSeansTex"
+                  class="btn btn-primary w-sm-auto"
+                >
+                  Texnik Seansni o'chirish
+                </button>
                 <button type="submit" class="btn btn-success w-sm-auto">
                   O'zgartirish
                 </button>
@@ -757,6 +771,28 @@ export default {
         .delete(`exam/${this.exam_id}/delete`)
         .then(() => {
           this.$router.push({ name: "exam-index" });
+        })
+        .catch((err) => {
+          this.notificationMessage(err.response.data.message, "error");
+        });
+    },
+    cutSeans() {
+      this.$api
+        .post("exam-seans/", { exam_id: this.exam_id })
+        .then((res) => {
+          console.log(res);
+          this.notificationMessage(res.message, "success");
+        })
+        .catch((err) => {
+          this.notificationMessage(err.response.data.message, "error");
+        });
+    },
+    cutSeansTex() {
+      this.$api
+        .post("cut-seans/", { exam_id: this.exam_id })
+        .then((res) => {
+          console.log(res);
+          this.notificationMessage(res.message, "success");
         })
         .catch((err) => {
           this.notificationMessage(err.response.data.message, "error");

@@ -105,16 +105,14 @@ export default {
     },
 
     createTest() {
-      axios
-        .post("https://api.fastlms.uz/api/test/create", this.jsonOutput)
-        .then((res) => {
-          console.log(res);
-        });
+      this.$api.post("test/create", this.jsonOutput).then((res) => {
+        console.log(res);
+      });
     },
 
     createTest() {
-      axios
-        .post("https://api.fastlms.uz/api/test/create", this.jsonOutput)
+      this.$api
+        .post("test/create", this.jsonOutput)
         .then((res) => {
           console.log(res);
           this.notificationMessage(res.data.message, "success");

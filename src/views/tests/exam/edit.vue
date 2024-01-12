@@ -510,13 +510,13 @@ export default {
   },
   methods: {
     getGroup() {
-      this.$http.get("/group/").then((res) => {
+      this.$api.get("/group/").then((res) => {
         this.groups = res.data.results;
       });
     },
     getExam() {
-      this.$http.get(`/exam-detail/${this.examId}`).then((res) => {
-        console.log(res)
+      this.$api.get(`/exam-detail/${this.examId}`).then((res) => {
+        console.log(res);
         this.getSubjects(res.data.curriculum.id, res.data.semester.id);
         this.eexam.name = res.data.name;
         this.eexam.comment = res.data.comment;

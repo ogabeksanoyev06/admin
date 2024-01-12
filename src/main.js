@@ -13,10 +13,10 @@ import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
 import VueKatex from "vue-katex";
-import "katex/dist/katex.min.css"
-import Element from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css';
-import locale from 'element-ui/lib/locale/lang/en';
+import "katex/dist/katex.min.css";
+import Element from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
+import locale from "element-ui/lib/locale/lang/en";
 
 Vue.use(Element, { locale });
 

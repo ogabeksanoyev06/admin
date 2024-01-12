@@ -1,4 +1,5 @@
-x<template>
+x
+<template>
   <div class="row">
     <div class="col-12">
       <div class="card col">
@@ -84,22 +85,35 @@ x<template>
                         </span>
                       </td>
                       <td>
-                        <p v-for="item in tariff.group_list">
+                        <p v-for="(item, i) in tariff.group_list" :key="i">
                           {{ item.name }}
                         </p>
                       </td>
-                      <td>{{ tariff.question_count }}/{{ tariff.total_count }}</td>
-                      <td>{{ $moment(tariff.begin_time).format("YYYY-MM-DD HH:mm:ss") }}</td>
-                      <td>{{ $moment(tariff.end_time).format("YYYY-MM-DD HH:mm:ss") }}</td>
+                      <td>
+                        {{ tariff.question_count }}/{{ tariff.total_count }}
+                      </td>
+                      <td>
+                        {{
+                          $moment(tariff.begin_time).format(
+                            "YYYY-MM-DD HH:mm:ss"
+                          )
+                        }}
+                      </td>
+                      <td>
+                        {{
+                          $moment(tariff.end_time).format("YYYY-MM-DD HH:mm:ss")
+                        }}
+                      </td>
                       <td>{{ tariff.exam_time }} daqiqa</td>
                       <td>
                         <el-switch
-            :key="tariff.id"
-            v-model="tariff.exam_status"
-            active-color="#13ce66"
-            @change="onChangeSwitch(tariff, $event)"
-            inactive-color="#ff4949">
-        </el-switch>
+                          :key="tariff.id"
+                          v-model="tariff.exam_status"
+                          active-color="#13ce66"
+                          @change="onChangeSwitch(tariff, $event)"
+                          inactive-color="#ff4949"
+                        >
+                        </el-switch>
                       </td>
                     </tr>
                   </tbody>
@@ -158,16 +172,17 @@ export default {
       this.$router.push({ name: "exam-create" });
     },
     getExams() {
-      this.$http.get("/exams").then((res) => {
-        console.log("aaa", res);
-        this.exams = res.data.results;
+      this.$api.get("exams").then((res) => {
+        this.exams = res.results;
       });
     },
     onChangeSwitch(item) {
-      this.$http.patch(`exam/${item.id}/update`,{exam_status:item.exam_status}).then((res) => {
-        console.log(res)
-        this.getExams()
-      })
+      this.$api
+        .patch(`exam/${item.id}/update`, { exam_status: item.exam_status })
+        .then((res) => {
+          console.log(res);
+          this.getExams();
+        });
     },
     goToLink(id) {
       this.$router.push({
