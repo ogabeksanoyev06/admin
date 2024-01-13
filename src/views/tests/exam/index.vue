@@ -80,14 +80,18 @@ x
                       </td>
                       <td>
                         {{ tariff.education_year.name }} <br />
-                        <span class="text-muted"
-                          >{{ tariff.semester.name }}
+                        <span class="text-muted">
+                          {{ tariff.semester.name }}
                         </span>
                       </td>
                       <td>
-                        <p v-for="(item, i) in tariff.group_list" :key="i">
-                          {{ item.name }}
-                        </p>
+                        <span>
+                          {{
+                            tariff.group_list
+                              .map((item) => item.name)
+                              .join(", ")
+                          }}
+                        </span>
                       </td>
                       <td>
                         {{ tariff.question_count }}/{{ tariff.total_count }}
@@ -182,6 +186,15 @@ export default {
         .then((res) => {
           console.log(res);
           this.getExams();
+        });
+      this.$http
+        .patch(`exam/${item.id}/update`, { exam_status: item.exam_status })
+        .then((res) => {
+          console.log(res);
+          this.getExams();
+        })
+        .catch((err) => {
+          this.notificationMessage(err.response.data.message, "error");
         });
     },
     goToLink(id) {
