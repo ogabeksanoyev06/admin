@@ -51,12 +51,12 @@ export default {
     getExams() {
       this.$api.get(`test/${this.exam_id}/list`).then((res) => {
         console.log(res);
-        this.items = res.data;
+        this.items = res;
       });
       console.log(this.exam_id);
       this.$api.get(`test/${this.exam_id}/list`).then((res) => {
         console.log(res);
-        this.items = res.data;
+        this.items = res;
       });
     },
     onChangeSwitch(newValue) {

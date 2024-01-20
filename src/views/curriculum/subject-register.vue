@@ -94,6 +94,34 @@
                   </select>
                 </div>
               </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <select class="form-control" v-model="group_by">
+                    <option :value="null">Guruhni tanlang</option>
+                    <option
+                        v-for="(item, key) in this.groupList"
+                        :key="key"
+                        :value="item.id"
+                    >
+                      {{ item.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <select class="form-control" v-model="group_lang">
+                    <option :value="null">Tilni tanlang</option>
+                    <option
+                        v-for="(item, key) in this.educationLang"
+                        :key="key"
+                        :value="item.id"
+                    >
+                      {{ item.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -160,6 +188,8 @@ export default {
   components: { Modal, vPagination },
   data() {
     return {
+      educationLang:[],
+      groupList:[],
       loading: false,
       modal: false,
       curriculum: [],
@@ -171,6 +201,8 @@ export default {
       select_value: "",
       input_value: "",
       roletype_id_teacher: null,
+      group_by: null,
+      group_lang: null,
       totalSize: 1,
       currentPage: 1,
       bootstrapPaginationClasses: {
@@ -183,6 +215,28 @@ export default {
     };
   },
   methods: {
+    getEducationLang() {
+      this.$api
+          .get("educationlang/?limit=20")
+          .then((res) => {
+            if (res) {
+              this.educationLang = res.results;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    },
+    getGroupsList() {
+      this.$api
+          .get("group/?limit=100")
+          .then((res) => {
+            this.groupList = res.results;
+          })
+          .catch((err) => {
+            this.notificationMessage(err.response.data.message, "error");
+          });
+    },
     getCurriculum() {
       this.$api
         .get(`curriculum`)
@@ -241,11 +295,15 @@ export default {
     },
     contentTeacher() {
       this.loading = false;
+      let arr = []
+      arr.push(this.group_by)
       this.$api
         .post(`content_teacher/`, {
           teacher_id: this.teacher_id,
           content_id: this.content_id,
           roletype_id_teacher: this.roletype_id_teacher,
+          group_lang:this.group_lang,
+          group_by:arr
         })
         .then((res) => {
           if (!res.error) {
@@ -278,6 +336,8 @@ export default {
     this.getContentAll();
     this.getTeacherAll();
     this.getRoleType();
+    this.getGroupsList();
+    this.getEducationLang()
   },
 };
 </script>

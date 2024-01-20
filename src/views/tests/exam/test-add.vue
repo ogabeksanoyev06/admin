@@ -41,12 +41,7 @@ Question 2"
           </div>
         </div>
       </div>
-      <button
-        class="button-see btn btn-success waves-effect waves-light"
-        @click="createTest"
-      >
-        saqlash
-      </button>
+
       <button
         class="button-see bottom-button btn btn-success waves-effect waves-light"
         @click="createTest"
@@ -104,11 +99,6 @@ export default {
       this.jsonOutput = questions;
     },
 
-    createTest() {
-      this.$api.post("test/create", this.jsonOutput).then((res) => {
-        console.log(res);
-      });
-    },
 
     createTest() {
       this.$api
@@ -119,7 +109,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
-          this.notificationMessage(err.message, "error");
+          this.notificationMessage(err.response.data.message, "error");
         });
     },
   },

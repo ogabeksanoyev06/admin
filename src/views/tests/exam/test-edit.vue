@@ -85,7 +85,7 @@ export default {
         })
         .then((res) => {
           this.getTest();
-          this.notificationMessage(res.data.message, "success");
+          this.notificationMessage(res.message, "success");
         })
         .catch((err) => {
           this.notificationMessage(err.data.message, "error");
@@ -142,18 +142,18 @@ export default {
       this.$api
         .get(`test/${this.test_id}/get`)
         .then((res) => {
-          console.log(res);
-          this.one_test = res.data.data;
-          this.content = this.formattedText(res.data.data);
+          console.log('res',res);
+          this.one_test = res.data;
+          this.content = this.formattedText(res.data);
           this.edited_test = this.convertStructuredTextToJson(
-            this.formattedText(res.data.data)
+            this.formattedText(res.data)
           );
         })
         .catch((err) => {
-          this.$router.push({
-            name: "test-list",
-            params: { exam_id: this.next_id },
-          });
+          // this.$router.push({
+          //   name: "test-list",
+          //   params: { exam_id: this.next_id },
+          // });
         });
     },
     deleteTest() {

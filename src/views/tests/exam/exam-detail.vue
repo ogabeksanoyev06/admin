@@ -7,11 +7,6 @@
         style="gap: 10px"
       >
         <router-link
-          :to="{ name: 'test-list', params: { examId: this.exam_id } }"
-        >
-          <button class="btn btn-success">Savollar (0)</button>
-        </router-link>
-        <router-link
           v-show="!real_exam.exam_status"
           :to="{ name: 'test-list', params: { examId: this.exam_id } }"
         >

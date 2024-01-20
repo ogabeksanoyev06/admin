@@ -5,22 +5,7 @@
         <div class="card-content">
           <div class="card-body">
             <div class="row">
-              <div class="col-md-3">
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <select class="form-control" v-model="educationYearId">
-                    <option :value="null">O'quv yilini tanlang</option>
-                    <option
-                      v-for="(item, key) in educationYear"
-                      :key="key"
-                      :value="item.id"
-                    >
-                      {{ item.name }}
-                    </option>
-                  </select>
-                </div>
-              </div>
+
               <div class="col-md-3">
                 <div class="form-group">
                   <select class="form-control" v-model="groupId">
